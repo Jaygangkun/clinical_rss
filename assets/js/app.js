@@ -1,4 +1,87 @@
 $(document).ready(function(){
+
+    // login page
+    $(document).on('click', '#submit_login', function(){
+        if($('[name="email"]').val() == ''){
+            alert('Please Input Email!');
+            $('[name="email"]').focus();
+            return;
+        }
+
+        if($('[name="password"]').val() == ''){
+            alert('Please Input Password!');
+            $('[name="password"]').focus();
+            return;
+        }
+
+        $.ajax({
+            url: base_url + 'admin_api/login',
+            type: 'post',
+            data: {
+                'email' : $('[name="email"]').val(),
+                'password' : $('[name="password"]').val()
+            },
+            success: function(resp){
+                resp = JSON.parse(resp);
+                if(resp.success){
+                    location.href = base_url + 'dashboard';
+                }
+                else{
+                    alert('Failed');
+                }
+            }
+        })
+    })
+
+    // register page
+    $(document).on('click', '#submit_register', function(){
+        if($('[name="email"]').val() == ''){
+            alert('Please Input Email!');
+            $('[name="email"]').focus();
+            return;
+        }
+
+        if($('[name="password"]').val() == ''){
+            alert('Please Input Password!');
+            $('[name="password"]').focus();
+            return;
+        }
+
+        if($('[name="confirm_password"]').val() == ''){
+            alert('Please Input Confirm Password!');
+            $('[name="confirm_password"]').focus();
+            return;
+        }
+
+        if($('[name="password"]').val() != $('[name="confirm_password"]').val()){
+            alert('Please Input Same Confirm Password');
+            $('[name="confirm_password"]').focus();
+            return;
+        }
+
+        $.ajax({
+            url: base_url + 'admin_api/register',
+            type: 'post',
+            data: {
+                'username' : $('[name="username"]').val(),
+                'first_name' : $('[name="first_name"]').val(),
+                'last_name' : $('[name="last_name"]').val(),
+                'email' : $('[name="email"]').val(),
+                'password' : $('[name="password"]').val()
+            },
+            success: function(resp){
+                resp = JSON.parse(resp);
+                if(resp.success){
+                    location.href = base_url + 'login';
+                }
+                else{
+                    alert('Failed');
+                }
+            }
+        })
+    })
+
+    // dashboard page
     $(document).on('click', '.report-list-row', function(){
         $('.report-list-row').removeClass('active');
         $(this).addClass('active');
@@ -94,5 +177,65 @@ $(document).ready(function(){
 
     $(document).on('change', '.report-list-row select', function(event){
         updateReport($(this).parents('.report-list-row').attr('report-id'));
+    })
+
+    // action popup buttons
+    $(document).on('click', '.report-list-action-popup-btn--reporting', function(){
+
+    })
+
+    $(document).on('click', '.report-list-action-popup-btn--duplicate', function(){
+        var report_id = $(this).parents('.report-list-row').attr('report-id');
+
+        $.ajax({
+            url: base_url + 'admin_api/report_duplicate',
+            type: 'post',
+            data: {
+                'id' : report_id,
+            },
+            success: function(resp){
+                resp = JSON.parse(resp);
+                if(resp.success){
+                    alert('Success');
+                    var new_report = $('.report-list-row[report-id="' + report_id + '"]').clone();
+                    $(new_report).attr('report-id', resp.report_id);
+
+                    $(new_report).removeClass('active');
+                    // $(new_report).removeClass('new');
+                    // $(new_report).removeClass('recent');
+                    $(new_report).removeClass('show-popup');
+
+                    $('.report-list-row[report-id="' + report_id + '"]').after(new_report);
+
+                }
+                else{
+                    alert('Failed');
+                }
+            }
+        })
+    })
+
+    $(document).on('click', '.report-list-action-popup-btn--delete', function(){
+        if(confirm('Are you sure to delete?')){
+            var report_id = $(this).parents('.report-list-row').attr('report-id');
+
+            $.ajax({
+                url: base_url + 'admin_api/report_delete',
+                type: 'post',
+                data: {
+                    'id' : report_id,
+                },
+                success: function(resp){
+                    resp = JSON.parse(resp);
+                    if(resp.success){
+                        alert('Success');
+                        $('.report-list-row[report-id="' + report_id + '"]').remove();
+                    }
+                    else{
+                        alert('Failed');
+                    }
+                }
+            })
+        }
     })
 })

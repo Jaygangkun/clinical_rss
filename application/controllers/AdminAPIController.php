@@ -25,6 +25,7 @@ class AdminAPIController extends CI_Controller {
             $_SESSION['user_id'] = $users[0]['id'];
             $_SESSION['email'] = $users[0]['email'];
         }
+
         echo json_encode($response);
     }
 
@@ -33,7 +34,14 @@ class AdminAPIController extends CI_Controller {
             'success' => true
         );
 
-        $user_id = $this->Users->add($_POST['full_name'], $_POST['email'], $_POST['password']);
+        $user_id = $this->Users->add(array(
+            'username' => isset($_POST['username']) ? $_POST['username'] : '', 
+            'email' => isset($_POST['email']) ? $_POST['email'] : '', 
+            'password' => isset($_POST['password']) ? $_POST['password'] : '',
+            'first_name' => isset($_POST['first_name']) ? $_POST['first_name'] : '',
+            'last_name' => isset($_POST['last_name']) ? $_POST['last_name'] : ''
+        ));
+        
         if(!$user_id){
             $response = array(
                 'success' => false
@@ -94,6 +102,35 @@ class AdminAPIController extends CI_Controller {
 
         if($report_update){
             $response['success'] = true;
+        }
+
+        echo json_encode($response);
+    }
+
+    public function reportDelete(){
+        $response = array(
+            'success' => false
+        );
+
+        $report_delete = $this->Reports->deleteByID(isset($_POST['id']) ? $_POST['id'] : null);
+
+        if($report_delete){
+            $response['success'] = true;
+        }
+
+        echo json_encode($response);
+    }
+
+    public function reportDuplicate(){
+        $response = array(
+            'success' => false
+        );
+
+        $report_id = $this->Reports->duplicateByID(isset($_POST['id']) ? $_POST['id'] : null);
+
+        if($report_id){
+            $response['success'] = true;
+            $response['report_id'] = $report_id;
         }
 
         echo json_encode($response);

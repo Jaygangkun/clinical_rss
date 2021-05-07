@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/materialize.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
         
+		<script type="text/javascript">
+        var base_url = "<?php echo base_url()?>";
+        </script>
 	</head>
 	<body class="login-page">
 		<div class="login-box">
@@ -19,73 +22,72 @@
 			</div>
 			<div class="card">
 				<div class="body">
-					<form action="https://brain.orangelinelab.com/auth/register" class="login-form" method="post" accept-charset="utf-8">
-						<div class="msg">Create a Account</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-user"></i>
-							</span>
-							<div class="form-line">
-								<input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="">
-							</div>
+				
+					<div class="msg">Create a Account</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-user"></i>
+						</span>
+						<div class="form-line">
+							<input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="">
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-user"></i>
-							</span>
-							<div class="form-line">
-								<input type="text" class="form-control" name="firstname" placeholder="First Name" required="" autofocus="">
-							</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-user"></i>
+						</span>
+						<div class="form-line">
+							<input type="text" class="form-control" name="first_name" placeholder="First Name" required="" autofocus="">
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-user"></i>
-							</span>
-							<div class="form-line">
-								<input type="text" class="form-control" name="lastname" placeholder="Last Name" required="" autofocus="">
-							</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-user"></i>
+						</span>
+						<div class="form-line">
+							<input type="text" class="form-control" name="last_name" placeholder="Last Name" required="" autofocus="">
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-envelope" style="font-size: 15px;"></i>
-							</span>
-							<div class="form-line">
-								<input type="text" class="form-control" name="email" placeholder="email" required="" autofocus="">
-							</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-envelope" style="font-size: 15px;"></i>
+						</span>
+						<div class="form-line">
+							<input type="text" class="form-control" name="email" placeholder="email" required="" autofocus="">
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-lock"></i>
-							</span>
-							<div class="form-line">
-								<input type="password" class="form-control" name="password" placeholder="Password" required="">
-							</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-lock"></i>
+						</span>
+						<div class="form-line">
+							<input type="password" class="form-control" name="password" placeholder="Password" required="">
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon">
-								<i class="material-icons fa fa-lock"></i>
-							</span>
-							<div class="form-line">
-								<input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="">
-							</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="material-icons fa fa-lock"></i>
+						</span>
+						<div class="form-line">
+							<input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="">
 						</div>
-						<div class="form-group">
-							<input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
-							<label for="terms">I read and agree to the <a href="javascript:void(0);">terms of usage</a>.</label>
+					</div>
+					<div class="form-group">
+						<input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
+						<label for="terms">I read and agree to the <a href="javascript:void(0);">terms of usage</a>.</label>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 login-wrap">
+							<input type="submit" name="submit" id="submit_register" class="btn btn-block btn-success waves-effect" value="Register">
 						</div>
-						<div class="row">
-							<div class="col-xs-12 login-wrap">
-								<input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="Register">
-							</div>
-						</div>
-						<div class="m-t-25 align-center">
-							<a href="<?php echo base_url('/login')?>">You already have a account?</a>
-						</div>
-					</form>            
+					</div>
+					<div class="m-t-25 align-center">
+						<a href="<?php echo base_url('/login')?>">You already have a account?</a>
+					</div>
 				</div>
 			</div>
 		</div>
     </body>
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/script.js"></script>
+    <script src="<?= base_url() ?>assets/js/app.js?v=<?php echo time()?>"></script>
 </html>

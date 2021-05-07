@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/materialize.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
         
+		<script type="text/javascript">
+        var base_url = "<?php echo base_url()?>";
+        </script>
 	</head>
 	<body class="login-page">
 		<div class="login-box">

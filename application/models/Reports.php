@@ -34,14 +34,25 @@ Class Reports extends CI_Model
 	}
 
 	public function deleteByID($id){
-		$query = "DELETE FROM customers WHERE id='".$id."'";
-		$this->db->query($query);
+		$query = "DELETE FROM reports WHERE id='".$id."'";
+		return $this->db->query($query);
 	}
 
-	public function checkURLTag($url_tag){
-		$query = "SELECT * FROM customers WHERE url_tag='".$url_tag."'";
-		$query_result = $this->db->query($query)->result_array();
+	public function duplicateByID($id){
 		
-		return $query_result;
+		$query_get = "SELECT * FROM reports WHERE id='".$id."'";
+		$results_get = $this->db->query($query_get)->result_array();
+
+		if(count($results_get) > 0){
+			$report = $results_get[0];
+
+			// clone
+			$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`) VALUES('".$report['title']."', '".$report['conditions']."', '".$report['study']."', '".$report['country']."', '".$report['terms']."')";
+			$this->db->query($query);
+
+			return $this->db->insert_id();
+		}
+
+		return null;
 	}
 }

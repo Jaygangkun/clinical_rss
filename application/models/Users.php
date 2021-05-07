@@ -13,8 +13,8 @@ Class Users extends CI_Model
 		return $query_result;
 	}
 
-	public function add($full_name, $email, $password){
-		$query = "INSERT INTO users(`email`, `password`) VALUES('".$email."', PASSWORD('".$password."'))";
+	public function add($data){
+		$query = "INSERT INTO users(`email`, `password`, `username`, `first_name`, `last_name`) VALUES('".$data['email']."', PASSWORD('".$data['password']."'), '".$data['username']."', '".$data['first_name']."', '".$data['last_name']."')";
 		$query_result = $this->db->query($query);
 		
 		return $this->db->insert_id();

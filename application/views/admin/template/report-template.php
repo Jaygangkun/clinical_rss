@@ -4,15 +4,15 @@
             <i class="material-icons">more_vert</i>
         </div>
         <div class="report-list-action-popup">
-            <div class="report-list-action-popup-btn disabled1">
+            <div class="report-list-action-popup-btn report-list-action-popup-btn--reporting">
                 <i class="material-icons">check_circle</i>
                 <span class="report-list-action-popup-btn__text">Reporting</span>
             </div>
-            <div class="report-list-action-popup-btn">
+            <div class="report-list-action-popup-btn report-list-action-popup-btn--duplicate">
                 <i class="material-icons">file_copy</i>
                 <span class="report-list-action-popup-btn__text">Duplicate</span>
             </div>
-            <div class="report-list-action-popup-btn">
+            <div class="report-list-action-popup-btn report-list-action-popup-btn--delete">
                 <i class="material-icons">delete</i>
                 <span class="report-list-action-popup-btn__text">Delete</span>
             </div>

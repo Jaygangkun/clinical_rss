@@ -66,6 +66,8 @@ $route['admin_api/register'] = 'AdminAPIController/register';
 
 $route['admin_api/report_add'] = 'AdminAPIController/reportAdd';
 $route['admin_api/report_update'] = 'AdminAPIController/reportUpdate';
+$route['admin_api/report_delete'] = 'AdminAPIController/reportDelete';
+$route['admin_api/report_duplicate'] = 'AdminAPIController/reportDuplicate';
 
 // Global APIS
 $route['(:any)'] = 'CustomerController/customerPage/$1';

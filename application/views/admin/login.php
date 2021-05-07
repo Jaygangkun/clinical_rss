@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/materialize.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
         
+        <script type="text/javascript">
+        var base_url = "<?php echo base_url()?>";
+        </script>
 	</head>
 	<body class="login-page">
         <div class="login-box">
@@ -19,45 +22,43 @@
             </div>
             <div class="card">
                 <div class="body">
-                    <form action="https://brain.orangelinelab.com/auth/register" class="login-form" method="post" accept-charset="utf-8">
-                        <div class="msg">Sign In</div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons fa fa-user"></i>
-                            </span>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="email" placeholder="Email" required="" autofocus="">
-                            </div>
+                    <div class="msg">Sign In</div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons fa fa-user"></i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="email" placeholder="Email" required="" autofocus="">
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons fa fa-lock"></i>
-                            </span>
-                            <div class="form-line">
-                                <input type="password" class="form-control" name="password" placeholder="Password" required="">
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons fa fa-lock"></i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required="">
                         </div>
-                        <div class="form-group" style="display: inline;width: 50%;">
-                            <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
-                            <label for="terms">Remember me.</label>
+                    </div>
+                    <div class="form-group" style="display: inline;width: 50%;">
+                        <input type="checkbox" name="remember" id="remember" class="filled-in chk-col-pink">
+                        <label for="remember">Remember me.</label>
+                    </div>
+                    <div class="form-group" style="display: inline;font-size: 13px;width: 50%;float: right;text-align: right;">
+                        <a href="<?php echo base_url('/reset-password')?>">Forgot password?</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 login-wrap">
+                            <input type="submit" name="submit" id="submit_login" class="btn btn-block btn-success waves-effect" value="LOGIN">
                         </div>
-                        <div class="form-group" style="display: inline;font-size: 13px;width: 50%;float: right;text-align: right;">
-                            <a href="<?php echo base_url('/reset-password')?>">Forgot password?</a>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 login-wrap">
-                                <input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="LOGIN">
-                            </div>
-                        </div>
-                        <div class="m-t-25 align-center">
-                            <a href="<?php echo base_url('/register')?>">Do you have no account?</a>
-                        </div>
-                    </form>            
+                    </div>
+                    <div class="m-t-25 align-center">
+                        <a href="<?php echo base_url('/register')?>">Do you have no account?</a>
+                    </div>        
                 </div>
             </div>
             </div>
         </div>
     </body>
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/script.js"></script>
+    <script src="<?= base_url() ?>assets/js/app.js?v=<?php echo time()?>"></script>
 </html>
