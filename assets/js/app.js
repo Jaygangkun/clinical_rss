@@ -179,14 +179,98 @@ $(document).ready(function(){
         updateReport($(this).parents('.report-list-row').attr('report-id'));
     })
 
+    // search input
+    function searchReport(keyword, sort){
+        $.ajax({
+            url: base_url + 'admin_api/report_search',
+            type: 'post',
+            data: {
+                keyword: keyword,
+                sort: sort
+            },
+            success: function(resp){
+                resp = JSON.parse(resp);
+                if(resp.success){
+                    $('#report_list').html(resp.reports);
+                }
+                else{
+                    $('#report_list').html('');
+                }
+            }
+        })
+    }
+
+    $(document).on('keypress', '#report_search_input', function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            searchReport($(this).val(), $('#sort_btn').attr('sort'))
+        }
+    })
+
+    // sort
+    $(document).on('click', '#sort_btn', function(){
+        var sort = $(this).attr('sort');
+        if(sort == 'ASC'){
+            sort = 'DESC';
+        }
+        else{
+            sort = 'ASC';
+        }
+
+        $(this).attr('sort', sort);
+
+        searchReport($('#report_search_input').val(), sort);
+    })
+    
     // action popup buttons
     $(document).on('click', '.report-list-action-popup-btn--reporting', function(){
+        var reporting = 1;
+        var report_row = $(this).parents('.report-list-row');
+        var report_id = $(this).parents('.report-list-row').attr('report-id');
+        var instance = this;
+        if($(this).hasClass('status--no-reporting')){
+            // start reporting
+            reporting = 1;
+        }
+        else if($(this).hasClass('status--reporting')){
+            // stop reporting
+            reporting = 0;
+        }
+        
+        $(report_row).addClass('loading');
+        $.ajax({
+            url: base_url + 'admin_api/report_reporting',
+            type: 'post',
+            data: {
+                'id' : report_id,
+                reporting: reporting
+            },
+            success: function(resp){
+                resp = JSON.parse(resp);
+                if(resp.success){
+                 
+                    if($(instance).hasClass('status--no-reporting')){
+                        // start reporting
+                        $(instance).removeClass('status--no-reporting');
+                        $(instance).addClass('status--reporting');
+                    }
+                    else if($(instance).hasClass('status--reporting')){
+                        // stop reporting
+                        $(instance).removeClass('status--reporting');
+                        $(instance).addClass('status--no-reporting');
+                    }
+                }
 
+                $(report_row).removeClass('loading');
+            }
+        })
     })
 
     $(document).on('click', '.report-list-action-popup-btn--duplicate', function(){
+        var report_row = $(this).parents('.report-list-row');
         var report_id = $(this).parents('.report-list-row').attr('report-id');
 
+        $(report_row).addClass('loading');
         $.ajax({
             url: base_url + 'admin_api/report_duplicate',
             type: 'post',
@@ -197,28 +281,34 @@ $(document).ready(function(){
                 resp = JSON.parse(resp);
                 if(resp.success){
                     alert('Success');
-                    var new_report = $('.report-list-row[report-id="' + report_id + '"]').clone();
-                    $(new_report).attr('report-id', resp.report_id);
+                    // var new_report = $('.report-list-row[report-id="' + report_id + '"]').clone();
+                    // $(new_report).attr('report-id', resp.report_id);
 
-                    $(new_report).removeClass('active');
-                    // $(new_report).removeClass('new');
-                    // $(new_report).removeClass('recent');
-                    $(new_report).removeClass('show-popup');
+                    // $(new_report).removeClass('active');
+                    // // $(new_report).removeClass('new');
+                    // // $(new_report).removeClass('recent');
+                    // $(new_report).removeClass('show-popup');
+                    // $(new_report).removeClass('loading');
 
-                    $('.report-list-row[report-id="' + report_id + '"]').after(new_report);
+                    $('.report-list-row[report-id="' + report_id + '"]').after(resp.report);
+                    // $('#report_list').append(resp.report);
 
                 }
                 else{
                     alert('Failed');
                 }
+                $(report_row).removeClass('loading');
+                $(report_row).removeClass("show-popup");
             }
         })
     })
 
     $(document).on('click', '.report-list-action-popup-btn--delete', function(){
         if(confirm('Are you sure to delete?')){
+            var report_row = $(this).parents('.report-list-row');
             var report_id = $(this).parents('.report-list-row').attr('report-id');
 
+            $(report_row).addClass('loading');
             $.ajax({
                 url: base_url + 'admin_api/report_delete',
                 type: 'post',
@@ -227,6 +317,7 @@ $(document).ready(function(){
                 },
                 success: function(resp){
                     resp = JSON.parse(resp);
+                    $(report_row).removeClass('loading');
                     if(resp.success){
                         alert('Success');
                         $('.report-list-row[report-id="' + report_id + '"]').remove();
@@ -237,5 +328,10 @@ $(document).ready(function(){
                 }
             })
         }
+    })
+
+    $(document).on('click', '.report-list-download-btn', function(){
+        var report_id = $(this).parents('.report-list-row').attr('report-id');
+        window.open(base_url + '/admin_api/rss_download?report_id=' + report_id);
     })
 })

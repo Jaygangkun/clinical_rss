@@ -9472,6 +9472,7 @@ input[type="text"]:disabled {
   display: flex;
   align-items: stretch;
   margin-bottom: 2px;
+  position: relative;
 }
 
 .report-list-col-info{
@@ -9552,6 +9553,11 @@ input[type="text"]:disabled {
 .new .report-list-col-status-wrap{
   background: #119558;
   color: white;
+}
+
+.old .report-list-col-status-wrap{
+  background: #A4EFCC;
+  color: #48B683;
 }
 
 .report-list-col-info-wrap{
@@ -9647,6 +9653,56 @@ input[type="text"]:disabled {
   margin-top: 10px;
 }
 
+.status--reporting .stop{
+  display: block;
+}
+
+.status--reporting .start{
+  display: none;
+}
+
+.status--no-reporting .stop{
+  display: none;
+}
+
+.status--no-reporting .start{
+  display: block;
+}
+
+.report-list-action-popup-btn__text {
+  white-space: nowrap;
+}
+
+.report-list-row-loading{
+  position: absolute;
+  left: 22px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #caced9bd;
+  display: none;
+}
+
+.loading .report-list-row-loading{
+  display: flex;
+}
+
+.loader{
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #119558;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 

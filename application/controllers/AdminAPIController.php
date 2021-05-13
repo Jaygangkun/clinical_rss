@@ -131,6 +131,66 @@ class AdminAPIController extends CI_Controller {
         if($report_id){
             $response['success'] = true;
             $response['report_id'] = $report_id;
+
+            $response['success'] = true;
+
+            $reports = $this->Reports->getByID($report_id);
+            
+            if(count($reports)){
+                $data = array();
+                $data['report'] = $reports[0];
+                $data['studies'] = getAllStudies();
+		        $data['countries'] = getAllCountries();
+
+                $report_html = $this->load->view('admin/template/report-template', $data, TRUE);
+            }
+            
+            $response['report'] = $report_html;
+
+        }
+
+        echo json_encode($response);
+    }
+
+    public function reportReporting(){
+        $response = array(
+            'success' => false
+        );
+
+        $report_update = $this->Reports->updateField(array(
+            'id' => isset($_POST['id']) ? $_POST['id'] : '',
+            'reporting' => isset($_POST['reporting']) ? $_POST['reporting'] : ''
+        ));
+
+        if($report_update){
+            $response['success'] = true;
+        }
+
+        echo json_encode($response);
+    }
+
+    public function reportSearch(){
+        $response = array(
+            'success' => false
+        );
+
+        $reports = $this->Reports->search(isset($_POST['keyword']) ? $_POST['keyword'] : '', isset($_POST['sort']) ? $_POST['sort'] : 'ASC');
+
+        if(count($reports) > 0){
+            $response['success'] = true;
+            $html = '';
+            
+            foreach($reports as $report){
+                
+                $data = array();
+                $data['report'] = $report;
+                $data['studies'] = getAllStudies();
+                $data['countries'] = getAllCountries();
+                
+                $html .= $this->load->view('admin/template/report-template', $data, TRUE);
+            }
+
+            $response['reports'] = $html;
         }
 
         echo json_encode($response);

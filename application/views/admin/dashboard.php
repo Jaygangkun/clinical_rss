@@ -79,13 +79,13 @@
 		<div class="container">
 			<div class="report-list-head">
 				<div class="report-list-head-sort">
-					<span class="sort-btn">
+					<span class="sort-btn" id="sort_btn" sort="ASC">
 						<i class="material-icons">sort</i>Sort
 					</span>
 				</div>
 				<div class="report-list-head-search">
 					<div class="search-input-wrap">
-						<input type="text" placeholder="Search">
+						<input type="text" placeholder="Search" id="report_search_input">
 						<i class="search-input-icon material-icons">search</i>
 					</div>
 				</div>
@@ -93,26 +93,10 @@
 			<div class="report-list-body" id="report_list">
 				<?php
 				if(isset($reports)){
-					$status = ''; // recent, new
-					$status_str = '';
 					foreach($reports as $report){
-						if($status == ''){
-							$status = 'recent';
-							$status_str = 'Recent Updates';
-						}
-						else if($status == 'recent'){
-							$status = 'new';
-							$status_str = 'New Updates';
-						}
-						else if($status == 'new'){
-							$status = '';
-							$status_str = 'No Updates';
-						}
 
 						$data = array();
 						$data['report'] = $report;
-						$data['report']['status'] = $status;
-						$data['report']['status_str'] = $status_str;
 
 						$this->view('admin/template/report-template', $data);
 					}

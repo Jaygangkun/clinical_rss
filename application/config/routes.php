@@ -68,6 +68,12 @@ $route['admin_api/report_add'] = 'AdminAPIController/reportAdd';
 $route['admin_api/report_update'] = 'AdminAPIController/reportUpdate';
 $route['admin_api/report_delete'] = 'AdminAPIController/reportDelete';
 $route['admin_api/report_duplicate'] = 'AdminAPIController/reportDuplicate';
+$route['admin_api/report_reporting'] = 'AdminAPIController/reportReporting';
+$route['admin_api/report_search'] = 'AdminAPIController/reportSearch';
+
+// 
+$route['rss_test'] = 'RSSController/rssTest';
+$route['admin_api/rss_download'] = 'RSSController/rssDownload';
 
 // Global APIS
 $route['(:any)'] = 'CustomerController/customerPage/$1';

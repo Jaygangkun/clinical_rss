@@ -1,12 +1,40 @@
-<div class="report-list-row <?php echo $report['status']?>" report-id="<?php echo $report['id']?>">
+<?php
+if($report['updated_at'] != '' && $report['updated_at'] != null){
+    $now = time();
+    $updated_at = strtotime($report['updated_at']);
+
+    $datediff = $now - $updated_at;
+    $daysdiff = round($datediff / (60 * 60 * 24));
+
+    if($daysdiff < 7){
+        $status = 'recent';
+        $status_str = 'Recent Updates';
+    }
+    else if($daysdiff < 31){
+        $status = 'new';
+        $status_str = 'New Updates';
+    }
+    else {
+        $status = 'old';
+        $status_str = 'Old Updates';
+    }
+    
+}
+else{
+    $status = '';
+    $status_str = 'No Updates';
+}
+?>
+<div class="report-list-row <?php echo $status?>" report-id="<?php echo $report['id']?>">
     <div class="report-list-col-action">
         <div class="report-list-action-btn">
             <i class="material-icons">more_vert</i>
         </div>
         <div class="report-list-action-popup">
-            <div class="report-list-action-popup-btn report-list-action-popup-btn--reporting">
+            <div class="report-list-action-popup-btn report-list-action-popup-btn--reporting <?php echo $report['reporting'] == '1' ? 'status--reporting' : 'status--no-reporting'?>">
                 <i class="material-icons">check_circle</i>
-                <span class="report-list-action-popup-btn__text">Reporting</span>
+                <span class="report-list-action-popup-btn__text start">Start Reporting</span>
+                <span class="report-list-action-popup-btn__text stop">Stop Reporting</span>
             </div>
             <div class="report-list-action-popup-btn report-list-action-popup-btn--duplicate">
                 <i class="material-icons">file_copy</i>
@@ -20,7 +48,7 @@
     </div>
     <div class="report-list-col-status">
         <div class="report-list-col-status-wrap">
-            <?php echo $report['status_str']?>
+            <?php echo $status_str?>
         </div>
     </div>
     <div class="report-list-col-info">
@@ -100,5 +128,8 @@
             Download PDF
             <div class="report-list-download-btn__icon-wrap"><i class="material-icons">file_download</i></div>
         </div>
+    </div>
+    <div class="report-list-row-loading">
+        <div class="loader"></div>
     </div>
 </div>

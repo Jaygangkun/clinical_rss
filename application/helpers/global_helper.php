@@ -1,4 +1,163 @@
 <?php
+
+include(APPPATH.'libraries/simple_html_dom.php');
+
+if(!function_exists('getStudyDetails')){
+    function getStudyDetails($study_url){
+
+		$study_url = str_replace('/show/', '/show/record/', $study_url);
+
+		$study_details = array(
+			'status' => '',
+			'nct_number' => '',
+			'conditions' => '',
+			'other_ids' => '',
+			'interventions' => '',
+			'title_acronym' => '',
+			'study_type' => '',
+			'study_start' => '',
+			'phase' => '',
+			'primary_completion' => '',
+			// 'sponsor_collaborators' => '',
+			'sponsor' => '',
+			'collaborators' => '',
+			'study_completion' => '',
+			'funder_type' => '',
+			'first_posted' => '',
+			'study_design' => '',
+			'last_update_posted' => '',
+			// 'outcome_measures' => '',
+			'primary_outcome_measures' => '',
+			'secondary_outcome_measures' => '',
+			'results_first_posted' => '',
+			// 'number_enrolled' => '',
+			'number_enrolled_actual' => '',
+			'number_enrolled_estimated' => '',
+			'number_enrolled_original' => '',
+			'locations' => '',
+			'sex' => '',
+			'study_documents' => '',
+			'age' => ''
+		);
+
+		$html = file_get_html($study_url);
+		
+		$data_table = $html->find('.ct-data_table.tr-data_table.tr-tableStyle')[0];
+		if($data_table){
+
+			foreach($data_table->find('tr') as $data_table_tr){
+				if(count($data_table_tr->find('th')) == 0){
+					continue;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "First Posted Date")){
+					$study_details['first_posted'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Last Update Posted Date")){
+					$study_details['last_update_posted'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Results First Posted Date")){
+					$study_details['results_first_posted'] = $data_table_tr->find('td')[0]->innertext;
+				}
+				
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Start Date")){
+					$study_details['study_start'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Estimated Primary Completion Date")){
+					$study_details['primary_completion'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Primary Outcome Measures")){
+					$study_details['primary_outcome_measures'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Secondary Outcome Measures")){
+					$study_details['secondary_outcome_measures'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Type")){
+					$study_details['study_type'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Phase")){
+					$study_details['phase'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Design")){
+					$study_details['study_design'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Condition")){
+					$study_details['conditions'] = $data_table_tr->find('td')[0]->innertext;
+				}	
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Intervention")){
+					$study_details['interventions'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Recruitment Status")){
+					$study_details['status'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Original Estimated Enrollment")){
+					$study_details['number_enrolled_original'] = $data_table_tr->find('td')[0]->innertext;
+				}
+				else if(strstr($data_table_tr->find('th')[0]->plaintext, "Estimated Enrollment")){
+					$study_details['number_enrolled_estimated'] = $data_table_tr->find('td')[0]->innertext;
+				}
+				else if(strstr($data_table_tr->find('th')[0]->plaintext, "Actual Enrollment")){
+					$study_details['number_enrolled_actual'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Completion Date")){
+					$study_details['study_completion'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Primary Completion Date")){
+					$study_details['primary_completion'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Sex/Gender")){
+					$data_table_tr_td = $data_table_tr->find('td')[0]->find('td');
+					if(count($data_table_tr_td) > 1){
+						$study_details['sex'] = $data_table_tr_td[1]->innertext;
+					}
+					else{
+						$study_details['sex'] = $data_table_tr->find('td')[0]->innertext;
+					}
+					
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Ages")){
+					$study_details['age'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "NCT Number")){
+					$study_details['nct_number'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Other Study ID Numbers")){
+					$study_details['other_ids'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Study Sponsor")){
+					$study_details['sponsor'] = $data_table_tr->find('td')[0]->innertext;
+				}
+
+				if(strstr($data_table_tr->find('th')[0]->plaintext, "Collaborators")){
+					$study_details['collaborators'] = $data_table_tr->find('td')[0]->innertext;
+				}
+			}
+		}
+
+		
+        return $study_details;
+    }
+}
+
 if(!function_exists('getAllStudies')){
     function getAllStudies(){
         return array(
