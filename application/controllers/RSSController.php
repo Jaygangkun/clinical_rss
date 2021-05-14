@@ -100,7 +100,7 @@ class RSSController extends CI_Controller {
 		$report = $reports[0];
 
 		// create rss url
-		$rss_url = "https://clinicaltrials.gov/ct2/results/rss.xml?rcv_d=&lup_d=7&sel_rss=mod7&term=".str_replace(" ", "+", $report['terms'])."&type=".$report['study']."&cond=".str_replace(" ", "+", $report['conditions'])."&cntry=".$report['country']."&count=10000";
+		$rss_url = "https://clinicaltrials.gov/ct2/results/rss.xml?rcv_d=&lup_d=7&sel_rss=mod7&term=".str_replace(" ", "+", $report['terms'])."&type=".$report['study']."&cond=".str_replace(" ", "+", $report['conditions'])."&cntry=".$report['country']."&count=10";
 
 		// echo $rss_url; die();
 		
@@ -153,8 +153,9 @@ class RSSController extends CI_Controller {
 		$dompdf->render();
 
 		// Output the generated PDF to Browser
-		$dompdf->stream("test.pdf");
+		$dompdf->stream("SearchResults.pdf");
 
+		echo "PDF Downloading...";
 		die();
 	}
 

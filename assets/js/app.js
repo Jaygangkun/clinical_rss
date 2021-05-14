@@ -332,6 +332,6 @@ $(document).ready(function(){
 
     $(document).on('click', '.report-list-download-btn', function(){
         var report_id = $(this).parents('.report-list-row').attr('report-id');
-        window.open(base_url + '/admin_api/rss_download?report_id=' + report_id);
+        window.open(base_url + 'admin_api/rss_download?report_id=' + report_id);
     })
 })
