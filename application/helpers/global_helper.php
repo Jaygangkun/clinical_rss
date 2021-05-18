@@ -2,6 +2,91 @@
 
 include(APPPATH.'libraries/simple_html_dom.php');
 
+if(!function_exists('getStatusString')){
+    function getStatusString($status){
+		if($status == '' || $status == 'no'){
+			return 'No Updates';
+		}
+		else if($status == 'new'){
+			return 'New Updates';
+		}
+		else if($status == 'recent'){
+			return 'Recent Updates';
+		}
+		else if($status == 'old'){
+			return 'Old Updates';
+		}
+		else{
+			return 'No Updates';
+		}
+	}
+}
+if(!function_exists('getRssLink')){
+    function getRssLink($data){
+		$days = 7;
+		if(isset($data['days'])){
+			$days = $data['days'];
+		}
+
+		$terms = '';
+		if(isset($data['terms'])){
+			$terms = str_replace(" ", "+", $data['terms']);
+		}
+
+		$study = '';
+		if(isset($data['study'])){
+			$study = $data['study'];
+		}
+
+		$conditions = '';
+		if(isset($data['conditions'])){
+			$conditions = str_replace(" ", "+", $data['conditions']);
+		}
+		
+		$country = '';
+		if(isset($data['country'])){
+			$country = $data['country'];
+		}
+
+		$count = 10;
+		if(isset($data['count'])){
+			$count = $data['count'];
+		}
+
+		$rss_url = "https://clinicaltrials.gov/ct2/results/rss.xml?rcv_d=&lup_d=".$days."&sel_rss=mod".$days."&term=".$terms."&type=".$study."&cond=".$conditions."&cntry=".$country."&count=".$count;
+
+		return $rss_url;
+	}
+}
+
+if(!function_exists('getRssCount')){
+    function getRssCount($rss_url){		
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => $rss_url,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => '',
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 0,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => 'GET',
+		CURLOPT_HTTPHEADER => array(
+			'Cookie: CTOpts=Qihzm6CLC74Psi1HjyUgzw-R98Fz3R4gQC-w; Psid=vihzm6CLC74Psi1Hjyz3FQ7V9gCkkKC8-BC8Eg0jF64VSgzqSB78SB0gCD8V'
+		),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		
+		$xml = new SimpleXMLElement($response);
+		
+		return count($xml->channel->item);
+	}
+}
+
 if(!function_exists('getStudyDetails')){
     function getStudyDetails($study_url){
 

@@ -102,6 +102,25 @@ class RSSController extends CI_Controller {
 		// create rss url
 		$rss_url = "https://clinicaltrials.gov/ct2/results/rss.xml?rcv_d=&lup_d=7&sel_rss=mod7&term=".str_replace(" ", "+", $report['terms'])."&type=".$report['study']."&cond=".str_replace(" ", "+", $report['conditions'])."&cntry=".$report['country']."&count=10";
 
+		$days = 7;
+		if($report['status'] == 'new'){
+			$days = 7;
+		}
+		else if($report['status'] == 'recent'){
+			$days = 31;
+		}
+		else if($report['status'] == 'old'){
+			$days = 31 * 3;
+		}
+
+		$rss_url = getRssLink(array(
+			'days' => $days,
+			'terms' => $report['terms'],
+			'study' => $report['study'],
+			'conditions' => $report['conditions'],
+			'country' => $report['country'],
+			'count' => 10
+		));
 		// echo $rss_url; die();
 		
 		$curl = curl_init();

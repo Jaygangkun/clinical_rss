@@ -3,6 +3,7 @@
         font-size: 12px;
         border-collapse: collapse;
         width: 100%;
+        table-layout: fixed
     }
 
     .table-list table, 
@@ -10,6 +11,8 @@
     .table-list td, 
     .table-list th{
         border: 1px solid #DCDCDC;
+        word-break: break-all;
+        word-wrap: break-word;
     }
 
     .table-list td{
@@ -40,19 +43,19 @@
 <table class="table-list">
     <thead>
         <tr>
-            <th></th>
-            <th>NCT Number</th>
-            <th>Title</th>
-            <th>Other Names</th>
-            <th>Status</th>
-            <th>Conditions</th>
-            <th>Interventions</th>
-            <th>Characteristics</th>
-            <th>Population</th>
-            <th>Sponsor/Collaborators</th>
-            <th>Funder Type</th>
-            <th>Dates</th>
-            <th>Locations</th>
+            <th style="width: 3%"></th>
+            <th style="width: 5%">NCT Number</th>
+            <th style="width: 7%">Title</th>
+            <th style="width: 7%">Other Names</th>
+            <th style="width: 7%">Status</th>
+            <th style="width: 7%">Conditions</th>
+            <th style="width: 21%">Interventions</th>
+            <th style="width: 22%">Characteristics</th>
+            <th style="width: 7%">Population</th>
+            <th style="width: 7%">Sponsor/Collaborators</th>
+            <!-- <th style="width: 6%">Funder Type</th> -->
+            <th style="width: 7%">Dates</th>
+            <!-- <th style="width: 7%">Locations</th> -->
         </tr>
     </thead>
     <tbody>
@@ -136,13 +139,13 @@
                         Collaborators: <?php echo $clinic['collaborators']?>
                     </div>
                 </td>
-                <td>
+                <!-- <td>
                     <div class="data-row">
                         <ul>
                             <li>Other</li>
                         </ul>
                     </div>
-                </td>
+                </td> -->
                 <td>
                     <div class="data-row">
                         Study Start: <?php echo $clinic['study_start']?>
@@ -163,8 +166,8 @@
                         Last Update Posted: <?php echo $clinic['last_update_posted']?>
                     </div>
                 </td>
-                <td>
-                </td>
+                <!-- <td>
+                </td> -->
             </tr>
             <?php
             $clinic_index++;

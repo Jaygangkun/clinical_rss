@@ -1,37 +1,14 @@
 <?php
-if($report['updated_at'] != '' && $report['updated_at'] != null){
-    $now = time();
-    $updated_at = strtotime($report['updated_at']);
-
-    $datediff = $now - $updated_at;
-    $daysdiff = round($datediff / (60 * 60 * 24));
-
-    if($daysdiff < 7){
-        $status = 'recent';
-        $status_str = 'Recent Updates';
-    }
-    else if($daysdiff < 31){
-        $status = 'new';
-        $status_str = 'New Updates';
-    }
-    else {
-        $status = 'old';
-        $status_str = 'Old Updates';
-    }
-    
-}
-else{
-    $status = '';
-    $status_str = 'No Updates';
-}
+$status = ($report['status'] == null || $report['status'] == '') ? 'no' : $report['status'];
+$status_str = getStatusString($report['status']);
 ?>
-<div class="report-list-row <?php echo $status?>" report-id="<?php echo $report['id']?>">
+<div class="report-list-row status--<?php echo $status?> <?php echo $report['reporting'] == '1' ? 'status--reporting' : 'status--no-reporting'?>" report-id="<?php echo $report['id']?>">
     <div class="report-list-col-action">
         <div class="report-list-action-btn">
             <i class="material-icons">more_vert</i>
         </div>
         <div class="report-list-action-popup">
-            <div class="report-list-action-popup-btn report-list-action-popup-btn--reporting <?php echo $report['reporting'] == '1' ? 'status--reporting' : 'status--no-reporting'?>">
+            <div class="report-list-action-popup-btn report-list-action-popup-btn--reporting">
                 <i class="material-icons">check_circle</i>
                 <span class="report-list-action-popup-btn__text start">Start Reporting</span>
                 <span class="report-list-action-popup-btn__text stop">Stop Reporting</span>

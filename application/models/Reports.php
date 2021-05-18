@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 Class Reports extends CI_Model
 {
 	public function add($data){
-		$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`) VALUES('".$data['title']."', '".$data['conditions']."', '".$data['study']."', '".$data['country']."', '".$data['terms']."', NOW())";
+		$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`, `status`) VALUES('".$data['title']."', '".$data['conditions']."', '".$data['study']."', '".$data['country']."', '".$data['terms']."', NOW(), 'no')";
         $this->db->query($query);
 
 		return $this->db->insert_id();
@@ -61,6 +61,15 @@ Class Reports extends CI_Model
 		if(isset($data['reporting'])){
 			if($update_set == ''){
 				$update_set = "reporting='".$data['reporting']."'";
+			}
+		}
+
+		if(isset($data['status'])){
+			if($update_set == ''){
+				$update_set = "status='".$data['status']."'";
+			}
+			else{
+				$update_set .= ", status='".$data['status']."'";
 			}
 		}
 		$query = "UPDATE reports SET ".$update_set." WHERE id='".$data['id']."'";		

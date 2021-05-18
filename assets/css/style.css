@@ -9545,17 +9545,17 @@ input[type="text"]:disabled {
   color: #8D939F;
 }
 
-.recent .report-list-col-status-wrap{
+.status--recent .report-list-col-status-wrap{
   background: #34E693;
   color: white;
 }
 
-.new .report-list-col-status-wrap{
+.status--new .report-list-col-status-wrap{
   background: #119558;
   color: white;
 }
 
-.old .report-list-col-status-wrap{
+.status--old .report-list-col-status-wrap{
   background: #A4EFCC;
   color: #48B683;
 }
@@ -9702,6 +9702,18 @@ input[type="text"]:disabled {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.status--reporting .report-list-col-info{
+  border: 1px solid  #119558;
+}
+
+.status--reporting .report-list-col-btn{
+  border: 1px solid  #119558;
+}
+
+.status--reporting .report-list-col-status-wrap{
+  border: 1px solid  #119558;
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {

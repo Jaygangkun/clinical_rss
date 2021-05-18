@@ -228,11 +228,11 @@ $(document).ready(function(){
         var report_row = $(this).parents('.report-list-row');
         var report_id = $(this).parents('.report-list-row').attr('report-id');
         var instance = this;
-        if($(this).hasClass('status--no-reporting')){
+        if($(report_row).hasClass('status--no-reporting')){
             // start reporting
             reporting = 1;
         }
-        else if($(this).hasClass('status--reporting')){
+        else if($(report_row).hasClass('status--reporting')){
             // stop reporting
             reporting = 0;
         }
@@ -249,16 +249,26 @@ $(document).ready(function(){
                 resp = JSON.parse(resp);
                 if(resp.success){
                  
-                    if($(instance).hasClass('status--no-reporting')){
+                    if($(report_row).hasClass('status--no-reporting')){
                         // start reporting
-                        $(instance).removeClass('status--no-reporting');
-                        $(instance).addClass('status--reporting');
+                        $(report_row).removeClass('status--no-reporting');
+                        $(report_row).addClass('status--reporting');
                     }
-                    else if($(instance).hasClass('status--reporting')){
+                    else if($(report_row).hasClass('status--reporting')){
                         // stop reporting
-                        $(instance).removeClass('status--reporting');
-                        $(instance).addClass('status--no-reporting');
+                        $(report_row).removeClass('status--reporting');
+                        $(report_row).addClass('status--no-reporting');
                     }
+
+                    // updating status
+                    $(report_row).removeClass('status--no');
+                    $(report_row).removeClass('status--new');
+                    $(report_row).removeClass('status--recent');
+                    $(report_row).removeClass('status--old');
+                    $(report_row).addClass("status--" + resp.status);
+                    $(report_row).removeClass('show-popup');
+
+                    $(report_row).find('.report-list-col-status-wrap').text(resp.status_str);
                 }
 
                 $(report_row).removeClass('loading');
