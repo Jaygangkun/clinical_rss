@@ -73,6 +73,9 @@ $route['admin_api/report_search'] = 'AdminAPIController/reportSearch';
 
 // 
 $route['rss_test'] = 'RSSController/rssTest';
+$route['cronjob_test'] = 'CronJobController/test';
+$route['cronjob'] = 'CronJobController/run';
+
 $route['admin_api/rss_download'] = 'RSSController/rssDownload';
 
 // Global APIS

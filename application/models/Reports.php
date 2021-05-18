@@ -90,4 +90,10 @@ Class Reports extends CI_Model
 		$query_result = $this->db->query($query)->result_array();
 		return $query_result;
 	}
+
+	public function allActiveReports(){
+		$query = "SELECT * FROM reports WHERE reporting='1'";
+		$query_result = $this->db->query($query)->result_array();
+		return $query_result;
+	}
 }

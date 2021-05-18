@@ -2,6 +2,14 @@
 
 include(APPPATH.'libraries/simple_html_dom.php');
 
+if(!function_exists('writeLog')){
+    function writeLog($log_text){
+		$fp = fopen('log.txt', 'a');
+		fwrite($fp, date("Y/m/d h:i:sa")."      ".$log_text."\n");  
+		fclose($fp);  
+	}
+}
+
 if(!function_exists('getStatusString')){
     function getStatusString($status){
 		if($status == '' || $status == 'no'){
