@@ -60,7 +60,8 @@ class AdminAPIController extends CI_Controller {
             'conditions' => isset($_POST['conditions']) ? $_POST['conditions'] : '',
             'study' => isset($_POST['study']) ? $_POST['study'] : '',
             'country' => isset($_POST['country']) ? $_POST['country'] : '',
-            'terms' => isset($_POST['terms']) ? $_POST['terms'] : ''
+            'terms' => isset($_POST['terms']) ? $_POST['terms'] : '',
+            'user_id' => isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '',
         ));
 
         if($report_id){

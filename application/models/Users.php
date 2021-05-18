@@ -19,4 +19,11 @@ Class Users extends CI_Model
 		
 		return $this->db->insert_id();
 	}
+
+	public function getByID($id){
+		$query = "SELECT * FROM users WHERE id='".$id."'";
+		$query_result = $this->db->query($query)->result_array();
+		
+		return $query_result;
+	}
 }

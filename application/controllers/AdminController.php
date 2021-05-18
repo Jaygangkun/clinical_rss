@@ -24,14 +24,14 @@ class AdminController extends CI_Controller {
 	}
 
 	public function dashboard(){
-		// if(!isset($_SESSION['user_id'])){
-		// 	redirect('/login');
-		// }
+		if(!isset($_SESSION['user_id'])){
+			redirect('/login');
+		}
 
 		$data = array();
 		$data['studies'] = getAllStudies();
 		$data['countries'] = getAllCountries();
-		$data['reports'] = $this->Reports->load();
+		$data['reports'] = $this->Reports->load($_SESSION['user_id']);
 
 		$this->load->view('admin/dashboard', $data);
 	}

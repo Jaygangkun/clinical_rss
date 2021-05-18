@@ -6,14 +6,14 @@ if (!defined('BASEPATH'))
 Class Reports extends CI_Model
 {
 	public function add($data){
-		$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`, `status`) VALUES('".$data['title']."', '".$data['conditions']."', '".$data['study']."', '".$data['country']."', '".$data['terms']."', NOW(), 'no')";
+		$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`, `status`, `user_id`) VALUES('".$data['title']."', '".$data['conditions']."', '".$data['study']."', '".$data['country']."', '".$data['terms']."', NOW(), 'no', ".$data['user_id'].")";
         $this->db->query($query);
 
 		return $this->db->insert_id();
 	}
 
-	public function load(){
-		$query = "SELECT * FROM reports ORDER BY title ASC";
+	public function load($user_id){
+		$query = "SELECT * FROM reports WHERE user_id='".$user_id."' ORDER BY title ASC";
 		$query_result = $this->db->query($query)->result_array();
 		
 		return $query_result;

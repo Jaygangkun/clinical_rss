@@ -19,6 +19,7 @@ class CronJobController extends CI_Controller {
         parent::__construct();
 
 		$this->load->model("Reports");
+		$this->load->model("Users");
 	}
 
 	public function test(){
@@ -138,31 +139,39 @@ class CronJobController extends CI_Controller {
 			file_put_contents($filepath, $output);
 	
 
-			// sending email
-			$mail = new PHPMailer();
+			$users = $this->Users->getByID($report['user_id']);
 
-			$mail->IsSMTP();
-			$mail->Host = 'mail.clinicalrss.orangelinelab.com';
-			$mail->Port = 465;
-			$mail->SMTPAuth = true;
-			$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
-			$mail->Password = 'hX_$6*zA0;Cn';
-			$mail->SMTPSecure = 'ssl';
-			$mail->SMTPDebug  = 1;  
-			$mail->SMTPAuth   = TRUE;
+			if(count($users) > 0){
+				$user = $users[0];
 
-			$mail->From = 'smtp@clinicalrss.orangelinelab.com';
-			$mail->FromName = 'ClinicRSS';
+				// sending email
+				$mail = new PHPMailer();
 
-			$mail->Subject = "message from clinic rss";
-			$mail->Body    = $xml->channel->title;
+				$mail->IsSMTP();
+				$mail->Host = 'mail.clinicalrss.orangelinelab.com';
+				$mail->Port = 465;
+				$mail->SMTPAuth = true;
+				$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
+				$mail->Password = 'hX_$6*zA0;Cn';
+				$mail->SMTPSecure = 'ssl';
+				$mail->SMTPDebug  = 1;  
+				$mail->SMTPAuth   = TRUE;
 
-			$mail->AddAddress('jaygangkun@hotmail.com');
+				$mail->From = 'smtp@clinicalrss.orangelinelab.com';
+				$mail->FromName = 'ClinicRSS';
 
-			$mail->addAttachment($filepath);
+				$mail->Subject = "message from clinic rss";
+				$mail->Body    = $xml->channel->title;
 
-			if(!$mail->Send()) {
-				writeLog($mail->ErrorInfo);
+				$mail->AddAddress($user['email']);
+
+				$mail->addAttachment($filepath);
+
+				if(!$mail->Send()) {
+					writeLog($mail->ErrorInfo);
+				}
+
+				writeLog('---Sent Email to '.$user['email']);
 			}
 			
 			writeLog('---Complete the report:'.$report['id']);
