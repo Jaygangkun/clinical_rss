@@ -10,6 +10,15 @@ class AdminController extends CI_Controller {
 		$this->load->model("Reports");
 	}
 
+	public function index(){
+		if(!isset($_SESSION['user_id'])){
+			redirect('/login');
+		}
+		else{
+			redirect('/dashboard');
+		}
+	}
+
 	public function login(){
 		unset($_SESSION['user_id']);
 		$this->load->view('admin/login');

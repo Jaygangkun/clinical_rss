@@ -180,4 +180,82 @@ class CronJobController extends CI_Controller {
 		writeLog('Cron Job End <<<<<<<<<<');
 		echo "Successfully!";
 	}
+
+	public function check(){
+		set_time_limit(0);
+		writeLog('Cron Job Check Start >>>>>>>>>>');
+
+		// get active reports
+		$reports = $this->Reports->allActiveReports();
+
+		foreach($reports as $report){
+			writeLog('---Start Check:'.$report['id']);
+			
+			if($report['reporting'] == '1'){
+                $terms = $report['terms'];
+                $study = $report['study'];
+                $conditions = $report['conditions'];
+                $country = $report['country'];
+    
+                $rss_link = getRssLink(array(
+                    'days' => 7,
+                    'terms' => $terms,
+                    'study' => $study,
+                    'conditions' => $conditions,
+                    'country' => $country,
+                    'count' => 10
+                ));
+        
+                if(getRssCount($rss_link) == 0){
+                    $rss_link = getRssLink(array(
+                        'days' => 31,
+                        'terms' => $terms,
+                        'study' => $study,
+                        'conditions' => $conditions,
+                        'country' => $country,
+                        'count' => 10
+                    )); 
+                    if(getRssCount($rss_link) == 0){
+                        $rss_link = getRssLink(array(
+                            'days' => 31 * 3,
+                            'terms' => $terms,
+                            'study' => $study,
+                            'conditions' => $conditions,
+                            'country' => $country,
+                            'count' => 10
+                        )); 
+    
+                        if(getRssCount($rss_link) == 0){
+                            $status = 'no';
+                        }
+                        else{
+                            $status = 'old';
+                        }
+                    }
+                    else{
+                        $status = 'recent';
+                    }
+                }
+                else{
+                    $status = 'new';
+                }
+            }
+            else{
+                $status = 'no';
+            }
+			
+			$report_update = $this->Reports->updateField(array(
+                'id' => $report['id'],
+                'status' => $status
+            ));
+
+			if($report_update){
+				writeLog('---Update Status:'.$status);	
+			}
+			writeLog('---Complete Check:'.$report['id']);
+		}
+
+		writeLog('Cron Job Check End <<<<<<<<<<');
+		echo "Successfully!";
+	}
 }

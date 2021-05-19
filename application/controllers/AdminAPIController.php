@@ -101,7 +101,83 @@ class AdminAPIController extends CI_Controller {
             'terms' => isset($_POST['terms']) ? $_POST['terms'] : ''
         ));
 
-        if($report_update){
+        $reports = $this->Reports->getByID(isset($_POST['id']) ? $_POST['id'] : '');
+            
+        if(count($reports)){
+            $report = $reports[0];
+        }
+        else{
+            $report = null;
+        }
+
+        if($report){
+            if($report['reporting'] == '1'){           
+
+                $terms = $report['terms'];
+                $study = $report['study'];
+                $conditions = $report['conditions'];
+                $country = $report['country'];
+    
+                $rss_link = getRssLink(array(
+                    'days' => 7,
+                    'terms' => $terms,
+                    'study' => $study,
+                    'conditions' => $conditions,
+                    'country' => $country,
+                    'count' => 10
+                ));
+        
+                if(getRssCount($rss_link) == 0){
+                    $rss_link = getRssLink(array(
+                        'days' => 31,
+                        'terms' => $terms,
+                        'study' => $study,
+                        'conditions' => $conditions,
+                        'country' => $country,
+                        'count' => 10
+                    )); 
+                    if(getRssCount($rss_link) == 0){
+                        $rss_link = getRssLink(array(
+                            'days' => 31 * 3,
+                            'terms' => $terms,
+                            'study' => $study,
+                            'conditions' => $conditions,
+                            'country' => $country,
+                            'count' => 10
+                        )); 
+    
+                        if(getRssCount($rss_link) == 0){
+                            $status = 'no';
+                        }
+                        else{
+                            $status = 'old';
+                        }
+                    }
+                    else{
+                        $status = 'recent';
+                    }
+                }
+                else{
+                    $status = 'new';
+                }
+            }
+            else{
+                $status = 'no';
+            }
+    
+            $report_update = $this->Reports->updateField(array(
+                'id' => isset($_POST['id']) ? $_POST['id'] : '',
+                'status' => $status
+            ));
+    
+            if($report_update){
+                $response['success'] = true;
+            }
+    
+            $response['status'] = $status;
+            $response['status_str'] = getStatusString($status);
+        }
+        else if($report_update){
             $response['success'] = true;
         }
 
@@ -244,7 +320,7 @@ class AdminAPIController extends CI_Controller {
             'success' => false
         );
 
-        $reports = $this->Reports->search(isset($_POST['keyword']) ? $_POST['keyword'] : '', isset($_POST['sort']) ? $_POST['sort'] : 'ASC');
+        $reports = $this->Reports->search(isset($_POST['keyword']) ? $_POST['keyword'] : '', isset($_POST['sort']) ? $_POST['sort'] : 'ASC', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '');
 
         if(count($reports) > 0){
             $response['success'] = true;

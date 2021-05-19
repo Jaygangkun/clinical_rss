@@ -77,14 +77,14 @@ Class Reports extends CI_Model
 		return $this->db->query($query);
 	}
 
-	public function search($keyword, $sort){
+	public function search($keyword, $sort, $user_id){
 		
 		$query = '';
 		if($keyword == ''){
-			$query = "SELECT * FROM reports ORDER BY title ".$sort;
+			$query = "SELECT * FROM reports WHERE user_id='".$user_id."' ORDER BY title ".$sort;
 		}
 		else{
-			$query = "SELECT * FROM reports WHERE title LIKE '%".$keyword."%' OR conditions LIKE '%".$keyword."%' OR study LIKE '%".$keyword."%' OR country LIKE '%".$keyword."%' OR terms LIKE '%".$keyword."%' ORDER BY title ".$sort;
+			$query = "SELECT * FROM reports WHERE (title LIKE '%".$keyword."%' OR conditions LIKE '%".$keyword."%' OR study LIKE '%".$keyword."%' OR country LIKE '%".$keyword."%' OR terms LIKE '%".$keyword."%') AND user_id='".$user_id."' ORDER BY title ".$sort;
 		}
 
 		$query_result = $this->db->query($query)->result_array();
@@ -92,7 +92,7 @@ Class Reports extends CI_Model
 	}
 
 	public function allActiveReports(){
-		$query = "SELECT * FROM reports WHERE reporting='1'";
+		$query = "SELECT * FROM reports WHERE reporting='1' AND user_id IS NOT NULL AND user_id <> ''";
 		$query_result = $this->db->query($query)->result_array();
 		return $query_result;
 	}

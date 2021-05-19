@@ -114,6 +114,18 @@ $(document).ready(function(){
 
     // add button
     $(document).on('click', '#report_add_btn', function(){
+        if($('#title').val() == ''){
+            alert('Please Input Title!');
+            $('#title').focus();
+            return;
+        }
+
+        if($('#conditions').val() == ''){
+            alert('Please Input Conditions!');
+            $('#conditions').focus();
+            return;
+        }
+
         $.ajax({
             url: base_url + 'admin_api/report_add',
             type: 'post',
@@ -143,8 +155,8 @@ $(document).ready(function(){
     })
 
     function updateReport(report_id){
-        var report_row = $('.report-list-row[report-id="' + report_id + '"]');
-
+        var report_row = $('.report-list-row[report-id="' + report_id + '"]');        
+        $(report_row).addClass('loading');
         $.ajax({
             url: base_url + 'admin_api/report_update',
             type: 'post',
@@ -160,10 +172,20 @@ $(document).ready(function(){
                 resp = JSON.parse(resp);
                 if(resp.success){
                     alert('Success');
+                    // updating status
+                    $(report_row).removeClass('status--no');
+                    $(report_row).removeClass('status--new');
+                    $(report_row).removeClass('status--recent');
+                    $(report_row).removeClass('status--old');
+                    $(report_row).addClass("status--" + resp.status);
+
+                    $(report_row).find('.report-list-col-status-wrap').text(resp.status_str);
                 }
                 else{
                     alert('Failed');
                 }
+
+                $(report_row).removeClass('loading');
             }
         })
     }
