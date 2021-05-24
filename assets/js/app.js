@@ -2,83 +2,83 @@ $(document).ready(function(){
 
     // login page
     $(document).on('click', '#submit_login', function(){
-        if($('[name="email"]').val() == ''){
-            alert('Please Input Email!');
-            $('[name="email"]').focus();
-            return;
-        }
+        // if($('[name="email"]').val() == ''){
+        //     alert('Please Input Email!');
+        //     $('[name="email"]').focus();
+        //     return;
+        // }
 
-        if($('[name="password"]').val() == ''){
-            alert('Please Input Password!');
-            $('[name="password"]').focus();
-            return;
-        }
+        // if($('[name="password"]').val() == ''){
+        //     alert('Please Input Password!');
+        //     $('[name="password"]').focus();
+        //     return;
+        // }
 
-        $.ajax({
-            url: base_url + 'admin_api/login',
-            type: 'post',
-            data: {
-                'email' : $('[name="email"]').val(),
-                'password' : $('[name="password"]').val()
-            },
-            success: function(resp){
-                resp = JSON.parse(resp);
-                if(resp.success){
-                    location.href = base_url + 'dashboard';
-                }
-                else{
-                    alert('Failed');
-                }
-            }
-        })
+        // $.ajax({
+        //     url: base_url + 'admin_api/login',
+        //     type: 'post',
+        //     data: {
+        //         'email' : $('[name="email"]').val(),
+        //         'password' : $('[name="password"]').val()
+        //     },
+        //     success: function(resp){
+        //         resp = JSON.parse(resp);
+        //         if(resp.success){
+        //             location.href = base_url + 'dashboard';
+        //         }
+        //         else{
+        //             alert('Failed');
+        //         }
+        //     }
+        // })
     })
 
     // register page
     $(document).on('click', '#submit_register', function(){
-        if($('[name="email"]').val() == ''){
-            alert('Please Input Email!');
-            $('[name="email"]').focus();
-            return;
-        }
+        // if($('[name="email"]').val() == ''){
+        //     alert('Please Input Email!');
+        //     $('[name="email"]').focus();
+        //     return;
+        // }
 
-        if($('[name="password"]').val() == ''){
-            alert('Please Input Password!');
-            $('[name="password"]').focus();
-            return;
-        }
+        // if($('[name="password"]').val() == ''){
+        //     alert('Please Input Password!');
+        //     $('[name="password"]').focus();
+        //     return;
+        // }
 
-        if($('[name="confirm_password"]').val() == ''){
-            alert('Please Input Confirm Password!');
-            $('[name="confirm_password"]').focus();
-            return;
-        }
+        // if($('[name="confirm_password"]').val() == ''){
+        //     alert('Please Input Confirm Password!');
+        //     $('[name="confirm_password"]').focus();
+        //     return;
+        // }
 
-        if($('[name="password"]').val() != $('[name="confirm_password"]').val()){
-            alert('Please Input Same Confirm Password');
-            $('[name="confirm_password"]').focus();
-            return;
-        }
+        // if($('[name="password"]').val() != $('[name="confirm_password"]').val()){
+        //     alert('Please Input Same Confirm Password');
+        //     $('[name="confirm_password"]').focus();
+        //     return;
+        // }
 
-        $.ajax({
-            url: base_url + 'admin_api/register',
-            type: 'post',
-            data: {
-                'username' : $('[name="username"]').val(),
-                'first_name' : $('[name="first_name"]').val(),
-                'last_name' : $('[name="last_name"]').val(),
-                'email' : $('[name="email"]').val(),
-                'password' : $('[name="password"]').val()
-            },
-            success: function(resp){
-                resp = JSON.parse(resp);
-                if(resp.success){
-                    location.href = base_url + 'login';
-                }
-                else{
-                    alert('Failed');
-                }
-            }
-        })
+        // $.ajax({
+        //     url: base_url + 'admin_api/register',
+        //     type: 'post',
+        //     data: {
+        //         'username' : $('[name="username"]').val(),
+        //         'first_name' : $('[name="first_name"]').val(),
+        //         'last_name' : $('[name="last_name"]').val(),
+        //         'email' : $('[name="email"]').val(),
+        //         'password' : $('[name="password"]').val()
+        //     },
+        //     success: function(resp){
+        //         resp = JSON.parse(resp);
+        //         if(resp.success){
+        //             location.href = base_url + 'login';
+        //         }
+        //         else{
+        //             alert('Failed');
+        //         }
+        //     }
+        // })
     })
 
     // dashboard page
@@ -115,13 +115,13 @@ $(document).ready(function(){
     // add button
     $(document).on('click', '#report_add_btn', function(){
         if($('#title').val() == ''){
-            alert('Please Input Title!');
+            alert('Enter Report Title!');
             $('#title').focus();
             return;
         }
 
         if($('#conditions').val() == ''){
-            alert('Please Input Conditions!');
+            alert('Enter a condition or disease (mandatory)');
             $('#conditions').focus();
             return;
         }
@@ -179,7 +179,8 @@ $(document).ready(function(){
                     $(report_row).removeClass('status--old');
                     $(report_row).addClass("status--" + resp.status);
 
-                    $(report_row).find('.report-list-col-status-wrap').text(resp.status_str);
+                    $(report_row).find('.report-list-col-status-wrap__title').text(resp.status_str.title);
+                    $(report_row).find('.report-list-col-status-wrap__date').text(resp.status_str.date);
                 }
                 else{
                     alert('Failed');
@@ -290,7 +291,8 @@ $(document).ready(function(){
                     $(report_row).addClass("status--" + resp.status);
                     $(report_row).removeClass('show-popup');
 
-                    $(report_row).find('.report-list-col-status-wrap').text(resp.status_str);
+                    $(report_row).find('.report-list-col-status-wrap__title').text(resp.status_str['title']);
+                    $(report_row).find('.report-list-col-status-wrap__date').text(resp.status_str['date']);
                 }
 
                 $(report_row).removeClass('loading');

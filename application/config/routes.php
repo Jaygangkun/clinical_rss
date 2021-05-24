@@ -56,8 +56,10 @@ $route['translate_uri_dashes'] = FALSE;
 // Pages
 $route['login'] = 'AdminController/login';
 $route['register'] = 'AdminController/register';
-$route['reset-password'] = 'AdminController/resetPassword';
+$route['forgot-password'] = 'AdminController/forgotPassword';
+$route['reset-password/(:any)'] = 'AdminController/resetPassword/$1';
 $route['dashboard'] = 'AdminController/dashboard';
+$route['verify/(:any)'] = 'AdminController/verify/$1';
 
 
 // Admin APIS

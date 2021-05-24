@@ -13,19 +13,34 @@ if(!function_exists('writeLog')){
 if(!function_exists('getStatusString')){
     function getStatusString($status){
 		if($status == '' || $status == 'no'){
-			return 'No Updates';
+			return array(
+				'title' => 'No Updates',
+				'date' => ''
+			);
 		}
 		else if($status == 'new'){
-			return 'New Updates';
+			return array(
+				'title' => 'New Updates',
+				'date' => 'this week'
+			);
 		}
 		else if($status == 'recent'){
-			return 'Recent Updates';
+			return array(
+				'title' => 'Recent Updates',
+				'date' => 'this month'
+			);
 		}
 		else if($status == 'old'){
-			return 'Old Updates';
+			return array(
+				'title' => 'Old Updates',
+				'date' => 'this quarter'
+			);
 		}
 		else{
-			return 'No Updates';
+			return array(
+				'title' => 'No Updates',
+				'date' => ''
+			);
 		}
 	}
 }

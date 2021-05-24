@@ -8944,7 +8944,7 @@ input[type="text"]:disabled {
 }
 
 .chrome {
-  background: linear-gradient(90deg, #E5E9EF 50%, #D8DCE3 50%);
+  /* background: linear-gradient(90deg, #E5E9EF 50%, #D8DCE3 50%); */
 }
 
 
@@ -9715,6 +9715,15 @@ input[type="text"]:disabled {
 .status--reporting .report-list-col-status-wrap{
   border: 1px solid  #119558;
 }
+
+.report-list-col-status-wrap__title{
+  font-weight: bold;
+}
+
+.report-list-col-status-wrap__date{
+  margin-top: 10px;
+}
+
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
@@ -9741,7 +9750,7 @@ input[type="text"]:disabled {
   }
 
   .chrome {
-    background: linear-gradient(180deg, #E5E9EF 50%, #D8DCE3 50%);
+    /* background: linear-gradient(180deg, #E5E9EF 50%, #D8DCE3 50%); */
   }
 }
 

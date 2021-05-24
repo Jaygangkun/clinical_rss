@@ -20,11 +20,15 @@ class CronJobController extends CI_Controller {
 
 		$this->load->model("Reports");
 		$this->load->model("Users");
+
+		$this->load->library('mailer');
 	}
 
 	public function test(){
 		writeLog('Test Log');
 
+		$this->mailer->sendTestMail();
+		die();
 		$mail = new PHPMailer();
 
 		$mail->IsSMTP();

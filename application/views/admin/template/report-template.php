@@ -25,7 +25,10 @@ $status_str = getStatusString($report['status']);
     </div>
     <div class="report-list-col-status">
         <div class="report-list-col-status-wrap">
-            <?php echo $status_str?>
+            <div>
+                <div class="report-list-col-status-wrap__title"><?php echo $status_str['title']?></div>
+                <div class="report-list-col-status-wrap__date"><?php echo $status_str['date']?></div>
+            </div>
         </div>
     </div>
     <div class="report-list-col-info">
