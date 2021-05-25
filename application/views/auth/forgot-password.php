@@ -67,7 +67,7 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-12 login-wrap">
-								<input type="submit" name="submit" id="submit" class="btn btn-success waves-effect" value="RECOVER PASSWORD" style="width: auto !important;">
+								<input type="submit" name="submit" id="submit" class="btn btn-success btn-white waves-effect" value="RECOVER PASSWORD" style="width: auto !important;">
 							</div>
 						</div>
 						<div class="m-t-25 align-center">

@@ -61,6 +61,10 @@ $route['reset-password/(:any)'] = 'AdminController/resetPassword/$1';
 $route['dashboard'] = 'AdminController/dashboard';
 $route['verify/(:any)'] = 'AdminController/verify/$1';
 
+$route['profile'] = 'AdminController/profile';
+$route['users'] = 'AdminController/users';
+$route['user-edit/(:any)'] = 'AdminController/userEdit/$1';
+$route['user-new'] = 'AdminController/userNew';
 
 // Admin APIS
 $route['admin_api/login'] = 'AdminAPIController/login';
@@ -72,6 +76,8 @@ $route['admin_api/report_delete'] = 'AdminAPIController/reportDelete';
 $route['admin_api/report_duplicate'] = 'AdminAPIController/reportDuplicate';
 $route['admin_api/report_reporting'] = 'AdminAPIController/reportReporting';
 $route['admin_api/report_search'] = 'AdminAPIController/reportSearch';
+
+$route['admin_api/user_delete'] = 'AdminAPIController/userDelete';
 
 // 
 $route['rss_test'] = 'RSSController/rssTest';

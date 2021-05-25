@@ -14,7 +14,7 @@ Class Users extends CI_Model
 	}
 
 	public function add($data){
-		$query = "INSERT INTO users(`email`, `password`, `username`, `first_name`, `last_name`, `is_active`, `token`) VALUES('".$data['email']."', PASSWORD('".$data['password']."'), '".$data['username']."', '".$data['first_name']."', '".$data['last_name']."', '1', '".$data['token']."')";
+		$query = "INSERT INTO users(`email`, `password`, `username`, `first_name`, `last_name`, `is_active`, `token`, `role`) VALUES('".$data['email']."', PASSWORD('".$data['password']."'), '".$data['username']."', '".$data['first_name']."', '".$data['last_name']."', '1', '".$data['token']."', 'user')";
 		$query_result = $this->db->query($query);
 		
 		return $this->db->insert_id();
@@ -78,5 +78,40 @@ Class Users extends CI_Model
 		$query = "UPDATE users SET password_reset_code='', password=PASSWORD('".$new_password."') WHERE password_reset_code='".$pwd_reset_code."'";
 		$this->db->query($query);
 		return true;
+	}
+
+	public function updateProfile($user_id, $data){
+		$query = "UPDATE users SET username='".$data['username']."', first_name='".$data['first_name']."', last_name='".$data['last_name']."', email='".$data['email']."', password=PASSWORD('".$data['password']."') WHERE id='".$user_id."'";
+		if($this->db->query($query)){
+			return true;
+		}		
+		return false;
+	}
+
+	public function updateUser($user_id, $data){
+		$query = "UPDATE users SET username='".$data['username']."', first_name='".$data['first_name']."', last_name='".$data['last_name']."', email='".$data['email']."', is_verify='".$data['is_verify']."', is_active='".$data['is_active']."' WHERE id='".$user_id."'";
+		if($this->db->query($query)){
+			return true;
+		}		
+		return false;
+	}
+
+	public function allUsers(){
+		$query = "SELECT * FROM users WHERE role = 'user'";
+		$query_result = $this->db->query($query)->result_array();
+		
+		return $query_result;
+	}
+
+	public function deleteByID($id){
+		$query = "DELETE FROM users WHERE id='".$id."'";
+		return $this->db->query($query);
+	}
+
+	public function addNew($data){
+		$query = "INSERT INTO users(`email`, `password`, `username`, `first_name`, `last_name`, `is_active`, `is_verify`, `role`) VALUES('".$data['email']."', PASSWORD('".$data['password']."'), '".$data['username']."', '".$data['first_name']."', '".$data['last_name']."', '".$data['is_active']."', '".$data['is_verify']."', 'user')";
+		$query_result = $this->db->query($query);
+		
+		return $this->db->insert_id();
 	}
 }

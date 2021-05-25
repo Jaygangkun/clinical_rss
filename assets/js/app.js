@@ -1,85 +1,8 @@
+const ALERT_SUCCESS = 'success';
+const ALERT_FAIL = 'fail';
+const ALERT_NORMAL = 'normal';
+
 $(document).ready(function(){
-
-    // login page
-    $(document).on('click', '#submit_login', function(){
-        // if($('[name="email"]').val() == ''){
-        //     alert('Please Input Email!');
-        //     $('[name="email"]').focus();
-        //     return;
-        // }
-
-        // if($('[name="password"]').val() == ''){
-        //     alert('Please Input Password!');
-        //     $('[name="password"]').focus();
-        //     return;
-        // }
-
-        // $.ajax({
-        //     url: base_url + 'admin_api/login',
-        //     type: 'post',
-        //     data: {
-        //         'email' : $('[name="email"]').val(),
-        //         'password' : $('[name="password"]').val()
-        //     },
-        //     success: function(resp){
-        //         resp = JSON.parse(resp);
-        //         if(resp.success){
-        //             location.href = base_url + 'dashboard';
-        //         }
-        //         else{
-        //             alert('Failed');
-        //         }
-        //     }
-        // })
-    })
-
-    // register page
-    $(document).on('click', '#submit_register', function(){
-        // if($('[name="email"]').val() == ''){
-        //     alert('Please Input Email!');
-        //     $('[name="email"]').focus();
-        //     return;
-        // }
-
-        // if($('[name="password"]').val() == ''){
-        //     alert('Please Input Password!');
-        //     $('[name="password"]').focus();
-        //     return;
-        // }
-
-        // if($('[name="confirm_password"]').val() == ''){
-        //     alert('Please Input Confirm Password!');
-        //     $('[name="confirm_password"]').focus();
-        //     return;
-        // }
-
-        // if($('[name="password"]').val() != $('[name="confirm_password"]').val()){
-        //     alert('Please Input Same Confirm Password');
-        //     $('[name="confirm_password"]').focus();
-        //     return;
-        // }
-
-        // $.ajax({
-        //     url: base_url + 'admin_api/register',
-        //     type: 'post',
-        //     data: {
-        //         'username' : $('[name="username"]').val(),
-        //         'first_name' : $('[name="first_name"]').val(),
-        //         'last_name' : $('[name="last_name"]').val(),
-        //         'email' : $('[name="email"]').val(),
-        //         'password' : $('[name="password"]').val()
-        //     },
-        //     success: function(resp){
-        //         resp = JSON.parse(resp);
-        //         if(resp.success){
-        //             location.href = base_url + 'login';
-        //         }
-        //         else{
-        //             alert('Failed');
-        //         }
-        //     }
-        // })
-    })
 
     // dashboard page
     $(document).on('click', '.report-list-row', function(){
@@ -114,14 +37,15 @@ $(document).ready(function(){
 
     // add button
     $(document).on('click', '#report_add_btn', function(){
+
         if($('#title').val() == ''){
-            alert('Enter Report Title!');
+            showAlert("<div class='message-box'>Enter Report Title</div>");
             $('#title').focus();
             return;
         }
 
         if($('#conditions').val() == ''){
-            alert('Enter a condition or disease (mandatory)');
+            showAlert("<div class='message-box'>Enter a condition or disease (mandatory)</div>");
             $('#conditions').focus();
             return;
         }
@@ -139,11 +63,12 @@ $(document).ready(function(){
             success: function(resp){
                 resp = JSON.parse(resp);
                 if(resp.success){
-                    alert('Success');
+                    showAlert("<div class='message-box'><b>" + $('#title').val() + "</b> was successfully added to the list</div>", ALERT_SUCCESS);
                     $('#report_list').append(resp.report);
+                    $('.report-add-area').removeClass('report-add-area--expand');
                 }
                 else{
-                    alert('Failed');
+                    showAlert("<div class='message-box'><b>" + $('#title').val() + "</b> was failed to add to the list</div>", ALERT_FAIL);
                 }
             }
         })
@@ -171,7 +96,7 @@ $(document).ready(function(){
             success: function(resp){
                 resp = JSON.parse(resp);
                 if(resp.success){
-                    alert('Success');
+                    showAlert("<div class='message-box'>Success</div>", ALERT_SUCCESS);
                     // updating status
                     $(report_row).removeClass('status--no');
                     $(report_row).removeClass('status--new');
@@ -183,7 +108,7 @@ $(document).ready(function(){
                     $(report_row).find('.report-list-col-status-wrap__date').text(resp.status_str.date);
                 }
                 else{
-                    alert('Failed');
+                    showAlert("<div class='message-box'>Failed</div>", ALERT_FAIL);
                 }
 
                 $(report_row).removeClass('loading');
@@ -226,23 +151,13 @@ $(document).ready(function(){
     $(document).on('keypress', '#report_search_input', function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            searchReport($(this).val(), $('#sort_btn').attr('sort'))
+            searchReport($(this).val(), $('#sort').val())
         }
     })
 
     // sort
-    $(document).on('click', '#sort_btn', function(){
-        var sort = $(this).attr('sort');
-        if(sort == 'ASC'){
-            sort = 'DESC';
-        }
-        else{
-            sort = 'ASC';
-        }
-
-        $(this).attr('sort', sort);
-
-        searchReport($('#report_search_input').val(), sort);
+    $(document).on('change', '#sort', function(){
+        searchReport($('#report_search_input').val(), $(this).val());
     })
     
     // action popup buttons
@@ -276,11 +191,15 @@ $(document).ready(function(){
                         // start reporting
                         $(report_row).removeClass('status--no-reporting');
                         $(report_row).addClass('status--reporting');
+
+                        showAlert("<div class='message-box'>Reporting Started!</div>", ALERT_SUCCESS);
                     }
                     else if($(report_row).hasClass('status--reporting')){
                         // stop reporting
                         $(report_row).removeClass('status--reporting');
                         $(report_row).addClass('status--no-reporting');
+
+                        showAlert("<div class='message-box'>Reporting Stoped!</div>", ALERT_SUCCESS);
                     }
 
                     // updating status
@@ -314,7 +233,7 @@ $(document).ready(function(){
             success: function(resp){
                 resp = JSON.parse(resp);
                 if(resp.success){
-                    alert('Success');
+                    showAlert("<div class='message-box'>Success</div>", ALERT_SUCCESS);
                     // var new_report = $('.report-list-row[report-id="' + report_id + '"]').clone();
                     // $(new_report).attr('report-id', resp.report_id);
 
@@ -329,7 +248,7 @@ $(document).ready(function(){
 
                 }
                 else{
-                    alert('Failed');
+                    showAlert("<div class='message-box'>Fail</div>", ALERT_FAIL);
                 }
                 $(report_row).removeClass('loading');
                 $(report_row).removeClass("show-popup");
@@ -338,9 +257,15 @@ $(document).ready(function(){
     })
 
     $(document).on('click', '.report-list-action-popup-btn--delete', function(){
-        if(confirm('Are you sure to delete?')){
-            var report_row = $(this).parents('.report-list-row');
-            var report_id = $(this).parents('.report-list-row').attr('report-id');
+        var instance = this;
+
+        showConfirm({
+            title: 'Are you sure to delete?',
+            text: '',
+            confirmButtonText: 'Yes, delete it!'
+        }, function(){
+            var report_row = $(instance).parents('.report-list-row');
+            var report_id = $(instance).parents('.report-list-row').attr('report-id');
 
             $(report_row).addClass('loading');
             $.ajax({
@@ -353,19 +278,110 @@ $(document).ready(function(){
                     resp = JSON.parse(resp);
                     $(report_row).removeClass('loading');
                     if(resp.success){
-                        alert('Success');
+                        swal("Deleted!", "The Report has been deleted.", "success");
                         $('.report-list-row[report-id="' + report_id + '"]').remove();
                     }
                     else{
-                        alert('Failed');
+                        swal("Failed to Delete!", "The Report has been deleted.", "fail");
                     }
                 }
             })
-        }
+        })
     })
 
     $(document).on('click', '.report-list-download-btn', function(){
         var report_id = $(this).parents('.report-list-row').attr('report-id');
         window.open(base_url + 'admin_api/rss_download?report_id=' + report_id);
+    })
+
+    $(document).on('click', '#title', function(event){
+        $(this).parents('.report-add-area').addClass('report-add-area--expand');
+        event.stopPropagation();
+        event.preventDefault();
+        console.log('title');
+    })
+
+    $(document).on('click', '.report-add-area', function(event){
+        console.log('report-add-area:', event.target.className);
+        if(event.target.className != 'report-input' && event.target.className != 'btn-main'){
+            $(this).removeClass('report-add-area--expand');
+        }
+    })
+
+    function showAlert(text, type=ALERT_NORMAL){
+        if($('.sweet-overlay').length > 0){
+            $('.sweet-overlay').addClass('hide');
+        }
+        
+        let customClass = 'custom-alert';
+
+        if(type == ALERT_SUCCESS){
+            customClass = 'custom-alert success-alert';
+        }
+        else if(type == ALERT_FAIL){
+            customClass = 'custom-alert fail-alert';
+        }
+        
+        swal({
+            title: "",
+            text: text,
+            timer: 2000,
+            html: true,
+            showConfirmButton: false,
+            animation: "slide-from-top",
+            animation: "slide-from-top",
+            toast: true,
+            position: 'top',
+            customClass: customClass,
+            showCloseButton: true
+        });
+    }
+
+    function showConfirm(config, cbConfirm){
+        if($('.sweet-overlay').length > 0){
+            $('.sweet-overlay').removeClass('hide');
+        }
+
+        swal({
+            title: config.title,
+            text: config.text,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: config.confirmButtonText,
+            closeOnConfirm: false
+        }, function () {
+            cbConfirm();
+        });
+    }
+
+
+    // users page
+    $(document).on('click', '.btn-user-delete', function(){
+        var instance = this;
+        showConfirm({
+            title: 'Are you sure to delete?',
+            text: '',
+            confirmButtonText: 'Yes, delete it!'
+        }, function(){
+            var user_id = $(instance).attr('user-id');
+
+            $.ajax({
+                url: base_url + 'admin_api/user_delete',
+                type: 'post',
+                data: {
+                    'user_id' : user_id,
+                },
+                success: function(resp){
+                    resp = JSON.parse(resp);
+                    if(resp.success){
+                        swal("Deleted!", "The User has been deleted.", "success");
+                    }
+                    else{
+                        swal("Failed to Delete!", "The Report has been deleted.", "fail");
+                    }
+                }
+            })
+        })      
     })
 })

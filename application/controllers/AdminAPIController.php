@@ -320,7 +320,7 @@ class AdminAPIController extends CI_Controller {
             'success' => false
         );
 
-        $reports = $this->Reports->search(isset($_POST['keyword']) ? $_POST['keyword'] : '', isset($_POST['sort']) ? $_POST['sort'] : 'ASC', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '');
+        $reports = $this->Reports->search(isset($_POST['keyword']) ? $_POST['keyword'] : '', isset($_POST['sort']) ? $_POST['sort'] : 'az', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '');
 
         if(count($reports) > 0){
             $response['success'] = true;
@@ -337,6 +337,20 @@ class AdminAPIController extends CI_Controller {
             }
 
             $response['reports'] = $html;
+        }
+
+        echo json_encode($response);
+    }
+
+    public function userDelete(){
+        $response = array(
+            'success' => false
+        );
+
+        $report_delete = $this->Users->deleteByID(isset($_POST['user_id']) ? $_POST['user_id'] : null);
+
+        if($report_delete){
+            $response['success'] = true;
         }
 
         echo json_encode($response);

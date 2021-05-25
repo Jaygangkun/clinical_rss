@@ -47,7 +47,7 @@ Class Reports extends CI_Model
 			$report = $results_get[0];
 
 			// clone
-			$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`) VALUES('".$report['title']."', '".$report['conditions']."', '".$report['study']."', '".$report['country']."', '".$report['terms']."', NOW())";
+			$query = "INSERT INTO reports(`title`, `conditions`, `study`, `country`, `terms`, `created_at`, `user_id`) VALUES('".$report['title']."', '".$report['conditions']."', '".$report['study']."', '".$report['country']."', '".$report['terms']."', NOW(), '".$report['user_id']."')";
 			$this->db->query($query);
 
 			return $this->db->insert_id();
@@ -80,11 +80,22 @@ Class Reports extends CI_Model
 	public function search($keyword, $sort, $user_id){
 		
 		$query = '';
+
+		if($sort == 'az'){
+			$orderby = 'ORDER BY title ASC';
+		}
+		else if($sort == 'newold'){
+			$orderby = 'ORDER BY status ASC';
+		}
+		else if($sort == 'oldnew'){
+			$orderby = 'ORDER BY status DESC';
+		}
+
 		if($keyword == ''){
-			$query = "SELECT * FROM reports WHERE user_id='".$user_id."' ORDER BY title ".$sort;
+			$query = "SELECT * FROM reports WHERE user_id='".$user_id."' ".$orderby;
 		}
 		else{
-			$query = "SELECT * FROM reports WHERE (title LIKE '%".$keyword."%' OR conditions LIKE '%".$keyword."%' OR study LIKE '%".$keyword."%' OR country LIKE '%".$keyword."%' OR terms LIKE '%".$keyword."%') AND user_id='".$user_id."' ORDER BY title ".$sort;
+			$query = "SELECT * FROM reports WHERE (title LIKE '%".$keyword."%' OR conditions LIKE '%".$keyword."%' OR study LIKE '%".$keyword."%' OR country LIKE '%".$keyword."%' OR terms LIKE '%".$keyword."%') AND user_id='".$user_id."' ".$orderby;
 		}
 
 		$query_result = $this->db->query($query)->result_array();

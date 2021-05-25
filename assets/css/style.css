@@ -2522,10 +2522,10 @@ section.content {
 .btn-info:focus {
   background-color: #00b0e4 !important; }
 
-.btn-success,
-.btn-success:hover,
-.btn-success:active,
-.btn-success:focus {
+.btn-white,
+.btn-white:hover,
+.btn-white:active,
+.btn-white:focus {
   background-color: #fff !important; }
 
 .btn-primary,
@@ -8215,7 +8215,7 @@ tr.unread {
 	padding: 0px 30px;
 }
 .topnav img {
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 }
 /* Change the color of links on hover */
 .topnav a:hover {
@@ -9345,8 +9345,9 @@ input[type="text"]:disabled {
 }
 
 .report-add-area{
-  padding: 50px 0px;
+  padding: 16px 0px;
   background: #CACED9;
+  cursor: pointer;
 }
 
 .report-input-row{
@@ -9364,6 +9365,7 @@ input[type="text"]:disabled {
   align-items: stretch;
   justify-content: space-between;
   margin-bottom: 2px;
+  transition: all 0.5s ease-in;
 }
 
 .report-input-col-row-50{
@@ -9376,6 +9378,8 @@ input[type="text"]:disabled {
 .report-btn-col{
   flex-grow: 0;
   margin-left: 2px;
+  margin-bottom: 2px;
+  flex-shrink: 0;
 }
 
 .report-input{
@@ -9391,7 +9395,7 @@ input[type="text"]:disabled {
   cursor: pointer;
   background: black;
   color: white;
-  padding: 30px;
+  padding: 0px 30px;
   display: inline-block;
 }
 
@@ -9404,6 +9408,8 @@ input[type="text"]:disabled {
 
 .area-title{
   font-size: 20px;
+  transition: all 0.5s ease-in;
+  margin: 0px;
 }
 
 .report-list-area{
@@ -9448,6 +9454,7 @@ input[type="text"]:disabled {
   cursor: pointer;
   font-size: 12px;
   color: black;
+  flex-shrink: 0;
 }
 
 .sort-btn i{
@@ -9506,7 +9513,7 @@ input[type="text"]:disabled {
   visibility: hidden;
 }
 
-.report-list-row:hover .report-list-info-edit-btn{
+.report-list-info-input-wrap:hover .report-list-info-edit-btn{
   visibility: visible;
 }
 
@@ -9519,7 +9526,7 @@ input[type="text"]:disabled {
   border: 1px dashed transparent;
 }
 
-.report-list-row:hover .report-list-info-input{
+.report-list-info-input-wrap:hover .report-list-info-input{
   border: 1px dashed #8D939F;
 }
 
@@ -9543,6 +9550,7 @@ input[type="text"]:disabled {
   background: #CACED9;
   text-align: center;
   color: #8D939F;
+  padding: 5px;
 }
 
 .status--recent .report-list-col-status-wrap{
@@ -9577,9 +9585,10 @@ input[type="text"]:disabled {
   width: 82px;
   text-align: center;
   border: 1px solid #C9CED8;
+  padding: 5px;
 }
 
-.active .report-list-col-btn{
+.show-popup .report-list-col-btn{
   background: black;
   color: white;
 }
@@ -9724,9 +9733,129 @@ input[type="text"]:disabled {
   margin-top: 10px;
 }
 
+.area-title{
+  height: 0px;
+  overflow: hidden;
+  transition: all .5s ease;
+}
+
+.report-input-col-row:nth-of-type(2) {
+  height: 0px;
+  overflow: hidden;
+  transition: all .5s ease;
+}
+
+.report-add-area--expand .report-input-col-row:nth-of-type(2) {
+  height: initial;
+}
+
+.report-add-area--expand .area-title{
+  height: initial;
+  margin-bottom: 10px;
+}
+
+#title{
+  cursor: pointer;
+}
+
+.report-add-area--expand #title{
+  cursor: initial;
+}
+
+.report-list-head-sort{
+  display: flex;
+  align-items: center;
+}
+
+.report-list-head{
+  justify-content: space-between;
+}
+
+.report-list-row{
+  margin-left: -22px;
+}
+
+.report-list-head select{
+  border: 1px solid #C9CED8;
+  background: white;
+  font-size: 12px;
+  line-height: 15px;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.sweet-alert.custom-alert{
+  padding: 32px !important;
+  top: 172px;
+}
+
+.sweet-alert.success-alert{
+  background: #119558;
+}
+
+.sweet-alert.fail-alert{
+  background: #fb483a;
+}
+
+.custom-alert .sa-button-container{
+  display: none;
+}
+
+.custom-alert .message-box{
+  font-size: 18px;
+}
+
+.custom-alert{
+  box-shadow: 0 5px 20px rgb(0 0 0 / 31%) !important;
+}
+
+.success-alert,
+.fail-alert{
+  box-shadow: none;
+}
+
+.success-alert .message-box,
+.fail-alert .message-box{
+  color: white;
+}
+
+.sweet-alert.custom-alert {
+  -webkit-animation: slideFromTopCustom 0.3s;
+  animation: slideFromTopCustom 0.3s;
+}
+
+@-webkit-keyframes slideFromTopCustom {
+  0% {
+    top: 0%; }
+  100% {
+    top: 172px; } }
+
+@keyframes slideFromTopCustom {
+  0% {
+    top: 0%; }
+  100% {
+    top: 172px; } }
+
+.sweet-overlay.hide{
+  /* display: none !important; */
+}
+
+.profile-area{
+  background: #CACED9;
+  padding: 30px;
+}
+
+.users-area{
+  background: #CACED9;
+  padding: 30px;
+}
+
+.topnav{
+  box-shadow: 0 1px 5px rgb(0 0 0 / 30%);
+}
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-
+  
 }
 
 /* Large devices (laptops/mobile, 790px and up) */
@@ -9757,3 +9886,106 @@ input[type="text"]:disabled {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 }		
+
+@media screen and (max-width: 767px){
+  .report-list-head{
+    padding: 0px 20px;
+    padding-right: 0px;
+  }
+
+  .report-list-body{
+    padding: 0px 20px;
+    padding-right: 0px;
+  }
+
+  .report-list-action-btn{
+    visibility: visible;
+  }
+
+  .report-input-col-row{
+    display: block;
+  }
+
+  .report-input-col-row-50{
+    width: 100%;
+    margin-bottom: 2px;
+  }
+
+  .report-input-col-row-50 .report-input-col-row-50{
+    margin-bottom: 0px;
+  }
+
+  .report-input-row{
+    display: block;
+  }
+
+  #report_add_btn{
+    display: block;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .report-btn-col{
+    margin: 0px;
+  }
+
+  .report-input-col-row--country{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .report-input-col-row--country .report-input-col-row-50{
+    width: calc(50% - 1px);
+  }
+
+  .report-input-col-row--title .report-input-col-row--conditions{
+    height: 0px;
+    visibility: hidden;
+  }
+
+  .report-add-area--expand .report-input-col-row--title .report-input-col-row--conditions{
+    height: auto;
+    visibility: visible;
+  }
+
+  .report-list-col-info-row{
+    display: block;
+  }
+
+  .report-list-col-info-col-50{
+    width: 100%;
+  }
+
+  .report-list-info-col-wrap{
+    margin-bottom: 5px;
+  }
+
+  .report-list-col-info-row{
+    margin-bottom: 0px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .topnav a{
+    font-size: 12px;
+  }
+
+  .report-list-head{
+    flex-wrap: wrap;
+  }
+
+  .report-list-head-sort{
+    width: 100%;
+    order: 2;
+  }
+
+  .report-list-head-search{
+    width: 100%;
+    margin-left: 0px;
+    margin-bottom: 10px;
+  }
+
+  .report-list-head select{
+    flex-grow: 1;
+  }
+}

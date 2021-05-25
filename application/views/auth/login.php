@@ -77,7 +77,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 login-wrap">
-                                <input type="submit" name="submit" id="submit_login" class="btn btn-block btn-success waves-effect" value="LOGIN">
+                                <input type="submit" name="submit" id="submit_login" class="btn btn-block btn-white btn-success waves-effect" value="LOGIN">
                             </div>
                         </div>
                         <div class="m-t-25 align-center">

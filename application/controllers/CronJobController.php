@@ -139,7 +139,7 @@ class CronJobController extends CI_Controller {
 
 			// $dompdf->stream("SearchResults.pdf");
 			$output = $dompdf->output();
-			$filepath = 'searchresults\Search Results_'.$report['id']."_".time().'.pdf';
+			$filepath = 'searchresults/Search Results_'.$report['id']."_".time().'.pdf';
 			file_put_contents($filepath, $output);
 	
 

@@ -58,7 +58,7 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-12 login-wrap">
-								<input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="Reset">
+								<input type="submit" name="submit" id="submit" class="btn btn-block btn-white waves-effect" value="Reset">
 							</div>
 						</div>
 					<?php echo form_close(); ?>
