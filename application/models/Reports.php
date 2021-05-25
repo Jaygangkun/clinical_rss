@@ -107,4 +107,9 @@ Class Reports extends CI_Model
 		$query_result = $this->db->query($query)->result_array();
 		return $query_result;
 	}
+
+	public function updateGuids($report_id, $data){
+		$query = "UPDATE reports SET pubDate='".$data['pubDate']."', guids='".$data['guids']."' WHERE id='".$report_id."'";		
+		return $this->db->query($query);
+	}
 }

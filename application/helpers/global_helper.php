@@ -150,6 +150,10 @@ if(!function_exists('getStudyDetails')){
 
 		$html = file_get_html($study_url);
 		
+		if(!$html){
+			return $study_details;
+		}
+
 		$data_table = $html->find('.ct-data_table.tr-data_table.tr-tableStyle')[0];
 		if($data_table){
 

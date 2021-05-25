@@ -113,6 +113,9 @@ class CronJobController extends CI_Controller {
 				'clinics' => array(),
 				'title' => $xml->channel->title
 			);
+
+			$pubDate = $xml->channel->pubDate;
+			$guids = array();
 	
 			foreach ($xml->channel->item as $item) {
 				$details = getStudyDetails($item->link);
@@ -121,62 +124,93 @@ class CronJobController extends CI_Controller {
 				$details['description'] = $item->description;
 	
 				$data['clinics'][] = $details;
+
+				$guids[] = $item->guid->__toString();
 			}
 	
-			$dompdf = new Dompdf();
-			
-			$clinic_html = $this->load->view('admin/template/clinic-table', $data, TRUE);
-			// echo $clinic_html;die();
-			$dompdf->loadHtml($clinic_html);
-	
-			// (Optional) Setup the paper size and orientation
-			$dompdf->setPaper('A3', 'landscape');
-	
-			// Render the HTML as PDF
-			$dompdf->render();
-	
-			// Output the generated PDF to Browser
+			// check changes between emails
 
-			// $dompdf->stream("SearchResults.pdf");
-			$output = $dompdf->output();
-			$filepath = 'searchresults/Search Results_'.$report['id']."_".time().'.pdf';
-			file_put_contents($filepath, $output);
-	
-
-			$users = $this->Users->getByID($report['user_id']);
-
-			if(count($users) > 0){
-				$user = $users[0];
-
-				// sending email
-				$mail = new PHPMailer();
-
-				$mail->IsSMTP();
-				$mail->Host = 'mail.clinicalrss.orangelinelab.com';
-				$mail->Port = 465;
-				$mail->SMTPAuth = true;
-				$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
-				$mail->Password = 'hX_$6*zA0;Cn';
-				$mail->SMTPSecure = 'ssl';
-				$mail->SMTPDebug  = 1;  
-				$mail->SMTPAuth   = TRUE;
-
-				$mail->From = 'smtp@clinicalrss.orangelinelab.com';
-				$mail->FromName = 'ClinicRSS';
-
-				$mail->Subject = "message from clinic rss";
-				$mail->Body    = $xml->channel->title;
-
-				$mail->AddAddress($user['email']);
-
-				$mail->addAttachment($filepath);
-
-				if(!$mail->Send()) {
-					writeLog($mail->ErrorInfo);
+			$changed = false;
+			$db_guids = json_decode($report['guids'], true);
+			if(count($db_guids) != count($guids)){
+				$found_count = 0;
+				foreach($guids as $guid){
+					if(strpos($report['guids'], $guid) !== false){
+						$found_count++;
+					}
 				}
 
-				writeLog('---Sent Email to '.$user['email']);
+				if($found_count != count($db_guids) || $found_count != count($guids)){
+					$changed = true;
+				}
 			}
+
+			if($changed){
+				$dompdf = new Dompdf();
+			
+				$clinic_html = $this->load->view('admin/template/clinic-table', $data, TRUE);
+				// echo $clinic_html;die();
+				$dompdf->loadHtml($clinic_html);
+		
+				// (Optional) Setup the paper size and orientation
+				$dompdf->setPaper('A3', 'landscape');
+		
+				// Render the HTML as PDF
+				$dompdf->render();
+		
+				// Output the generated PDF to Browser
+	
+				// $dompdf->stream("SearchResults.pdf");
+				$output = $dompdf->output();
+				$filepath = 'searchresults/Search Results_'.$report['id']."_".time().'.pdf';
+				file_put_contents($filepath, $output);
+		
+	
+				$users = $this->Users->getByID($report['user_id']);
+	
+				if(count($users) > 0){
+					$user = $users[0];
+	
+					// sending email
+					$mail = new PHPMailer();
+	
+					$mail->IsSMTP();
+					$mail->Host = 'mail.clinicalrss.orangelinelab.com';
+					$mail->Port = 465;
+					$mail->SMTPAuth = true;
+					$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
+					$mail->Password = 'hX_$6*zA0;Cn';
+					$mail->SMTPSecure = 'ssl';
+					$mail->SMTPDebug  = 1;  
+					$mail->SMTPAuth   = TRUE;
+	
+					$mail->From = 'smtp@clinicalrss.orangelinelab.com';
+					$mail->FromName = 'ClinicRSS';
+	
+					$mail->Subject = "message from clinic rss";
+					$mail->Body    = $xml->channel->title;
+	
+					$mail->AddAddress($user['email']);
+	
+					$mail->addAttachment($filepath);
+	
+					if(!$mail->Send()) {
+						writeLog($mail->ErrorInfo);
+					}
+	
+					writeLog('---Sent Email to '.$user['email']);
+				}
+
+				$reports = $this->Reports->updateGuids($report['id'], array(
+					'pubDate' => $pubDate,
+					'guids' => json_encode($guids)
+				));
+			}
+			else{
+				writeLog('---No Changes');
+			}
+
+			
 			
 			writeLog('---Complete the report:'.$report['id']);
 		}
