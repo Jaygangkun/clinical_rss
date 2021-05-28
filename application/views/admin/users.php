@@ -41,6 +41,7 @@
 							<tr>
 								<th>#</th>
 								<th>Username</th>
+								<th>Email</th>
 								<th>Name</th> 
 								<th>Verify</th> 
 								<th>Active</th> 
@@ -56,6 +57,7 @@
 									<tr>
 										<td><?php echo $index?></td>
 										<td><?php echo $user['username']?></td>
+										<td><?php echo $user['email']?></td>
 										<td><?php echo $user['first_name'].' '.$user['last_name']?></td>
 										<td><?php echo $user['is_verify'] == '1' ? '<span class="btn bg-green">Yes</span>' : '<span class="btn bg-red">No</span>'?></td>
 										<td><?php echo $user['is_active'] == '1' ? '<span class="btn bg-green">Yes</span>' : '<span class="btn bg-red">No</span>'?></td>
@@ -74,6 +76,7 @@
 								<tr>
 									<th>#</th>
 									<th>Username</th>
+									<th>Email</th>
 									<th>Name</th> 
 									<th>Verify</th> 
 									<th>Active</th> 
