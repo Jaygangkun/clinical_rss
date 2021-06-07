@@ -25,6 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://172.16.1.45:8906';
 // $config['base_url'] = 'http://clinicalrss.orangelinelab.com/';
+$url = (isset($_SERVER['HTTPS']) ? "https://" : "http://"); 
+$url .= $_SERVER['HTTP_HOST']. str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+
+$config['base_url'] = $url;
 
 /*
 |--------------------------------------------------------------------------
