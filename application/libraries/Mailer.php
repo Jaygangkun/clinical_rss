@@ -20,11 +20,11 @@ class Mailer
         $mail = new PHPMailer();
 
 		$mail->IsSMTP();
-		$mail->Host = 'mail.clinicalrss.orangelinelab.com';
+		$mail->Host = 'mail.clinical.careequity.com';
 		$mail->Port = 465;
 		$mail->SMTPAuth = true;
-		$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
-		$mail->Password = 'hX_$6*zA0;Cn';
+		$mail->Username = 'clinicalrss@clinical.careequity.com';
+		$mail->Password = 'M?r;=[_Wq631';
 		$mail->SMTPSecure = 'ssl';
 		$mail->SMTPDebug  = 1;  
 		$mail->SMTPAuth   = TRUE;
@@ -35,7 +35,7 @@ class Mailer
     function sendTestMail(){
         $mail = $this->initMailer();
         
-        $mail->From = 'smtp@clinicalrss.orangelinelab.com';
+        $mail->From = 'clinicalrss@clinical.careequity.com';
 		$mail->FromName = 'Clinic';
 
         $mail->IsHTML(true);
@@ -75,7 +75,7 @@ class Mailer
     function sendRegistrationMail($data){
         $mail = $this->initMailer();
 
-        $mail->From = 'smtp@clinicalrss.orangelinelab.com';
+        $mail->From = 'clinicalrss@clinical.careequity.com';
 		$mail->FromName = 'Clinic';
         $mail->IsHTML(true);
 
@@ -127,7 +127,7 @@ class Mailer
 	function sendResetPasswordMail($data){
         $mail = $this->initMailer();
 
-        $mail->From = 'smtp@clinicalrss.orangelinelab.com';
+        $mail->From = 'clinicalrss@clinical.careequity.com';
 		$mail->FromName = 'Clinic';
         $mail->IsHTML(true);
 

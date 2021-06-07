@@ -32,16 +32,16 @@ class CronJobController extends CI_Controller {
 		$mail = new PHPMailer();
 
 		$mail->IsSMTP();
-		$mail->Host = 'mail.clinicalrss.orangelinelab.com';
+		$mail->Host = 'mail.clinical.careequity.com';
 		$mail->Port = 465;
 		$mail->SMTPAuth = true;
-		$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
-		$mail->Password = 'hX_$6*zA0;Cn';
+		$mail->Username = 'clinicalrss@clinical.careequity.com';
+		$mail->Password = 'M?r;=[_Wq631';
 		$mail->SMTPSecure = 'ssl';
 		$mail->SMTPDebug  = 1;  
 		$mail->SMTPAuth   = TRUE;
 
-		$mail->From = 'smtp@clinicalrss.orangelinelab.com';
+		$mail->From = 'clinicalrss@clinical.careequity.com';
 		$mail->FromName = 'Clinic';
 
 		$mail->Subject = "Message from contact form";
@@ -175,16 +175,16 @@ class CronJobController extends CI_Controller {
 					$mail = new PHPMailer();
 	
 					$mail->IsSMTP();
-					$mail->Host = 'mail.clinicalrss.orangelinelab.com';
+					$mail->Host = 'mail.clinical.careequity.com';
 					$mail->Port = 465;
 					$mail->SMTPAuth = true;
-					$mail->Username = 'smtp@clinicalrss.orangelinelab.com';
-					$mail->Password = 'hX_$6*zA0;Cn';
+					$mail->Username = 'clinicalrss@clinical.careequity.com';
+					$mail->Password = 'M?r;=[_Wq631';
 					$mail->SMTPSecure = 'ssl';
 					$mail->SMTPDebug  = 1;  
 					$mail->SMTPAuth   = TRUE;
 	
-					$mail->From = 'smtp@clinicalrss.orangelinelab.com';
+					$mail->From = 'clinicalrss@clinical.careequity.com';
 					$mail->FromName = 'ClinicRSS';
 	
 					$mail->Subject = "message from clinic rss";
