@@ -303,7 +303,8 @@ $(document).ready(function(){
 
     $(document).on('click', '.report-add-area', function(event){
         console.log('report-add-area:', event.target.className);
-        if(event.target.className != 'report-input' && event.target.className != 'btn-main'){
+        // if(event.target.className != 'report-input' && event.target.className != 'btn-main'){
+        if(event.target.className.indexOf('report-input') == -1 && event.target.className.indexOf('btn-main') == -1){
             $(this).removeClass('report-add-area--expand');
         }
     })
